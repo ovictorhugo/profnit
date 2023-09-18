@@ -1,0 +1,127 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+ background-color: #Fff;
+}
+
+.element::-webkit-scrollbar {
+  height: 10px;               /* width of the entire scrollbar */
+
+}
+
+/* bar invis[ivel*/
+
+.elementPesquisador::-webkit-scrollbar {
+  height: 10px; 
+  width: 0;              /* width of the entire scrollbar */
+
+}
+
+.elementPesquisador::-webkit-scrollbar-track {
+  background: transparent; 
+  width: 0;            /* color of the tracking area */
+}
+
+.elementPesquisador::-webkit-scrollbar-thumb {
+  background-color: transparent;    /* color of the scroll thumb */
+        /* roundness of the scroll thumb */
+  margin: 3px;/* creates padding around scroll thumb */
+}
+
+.element::-webkit-scrollbar-track {
+  background: transparent;        /* color of the tracking area */
+}
+
+.element::-webkit-scrollbar-thumb {
+  background-color: #E6E6E6;    /* color of the scroll thumb */
+        /* roundness of the scroll thumb */
+  margin: 3px;/* creates padding around scroll thumb */
+}
+
+.selectedTabClassName {
+  background-color: #F1F4F9;
+  border-color: #005399;
+}
+
+.checkboxLabel label.checked {
+  background-color: blue;
+}
+
+.meu-componente {
+  overflow-y: auto;
+  animation-name: scroll;
+  animation-duration: 1s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+.meu-componente {
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  
+}
+
+.activeTab {
+ 
+  border: solid 1px #005399;
+}
+
+/*Logica selecionados*/
+
+.activeResumo {
+  background-color: #EC1C22;
+  color: #fff
+}
+
+.activeTermos {
+  background-color: #041962;
+  color: #fff
+}
+
+.activeAreas {
+  background-color: #8FC53E;
+  color: #fff
+}
+
+.activePesquisadores {
+  background-color: #20BDBE;
+  color: #fff
+}
+
+.reportClass {
+  width: 100%;
+  height: 100vh;
+}
+
+.no-drag {
+  user-drag: none;
+  user-select: none;
+}
+
+.bg-gradient {
+
+  background-size: 100% 100%;
+  background-position: 0px 0px,0px 0px,0px 0px,0px 0px,0px 0px,0px 0px,0px 0px,0px 0px,0px 0px,0px 0px,0px 0px,0px 0px;
+  background-image: radial-gradient(18% 28% at 24% 50%, #8AB4F8 7%, #073AFF00 100%),radial-gradient(18% 28% at 18% 71%, #FFFFFF59 6%, #073AFF00 100%),radial-gradient(70% 53% at 36% 76%, #0051BA 0%, #073AFF00 100%),radial-gradient(42% 53% at 16% 101%, #8AB4F8 7%, #073AFF00 100%),radial-gradient(42% 53% at 34% 72%, #FFFFFFFF 7%, #073AFF00 100%),radial-gradient(18% 28% at 35% 87%, #FFFFFFFF 7%, #073AFF00 100%),radial-gradient(31% 43% at 7% 98%, #FFFFFFFF 24%, #073AFF00 100%),radial-gradient(21% 37% at 72% 23%, #0051BA 24%, #073AFF00 100%),radial-gradient(35% 56% at 91% 74%, #8AB4F8 9%, #073AFF00 100%),radial-gradient(74% 86% at 67% 38%, #1967D2 24%, #073AFF00 100%),linear-gradient(125deg, #4EB5FFFF 1%, #4C00FCFF 100%),radial-gradient(75% 75% at 50% 50%, #B91701 0%, #073AFFFF 100%);
+}
+
+.backgroundGradient {
+  background-size: 100% 100%;
+  background-position: 0px 0px,0px 0px,0px 0px,0px 0px,0px 0px,0px 0px,0px 0px,0px 0px,0px 0px,0px 0px,0px 0px,0px 0px;
+  background-image: radial-gradient(18% 28% at 24% 50%, #8AB4F8 7%, #073AFF00 100%),radial-gradient(18% 28% at 18% 71%, #FFFFFF59 6%, #073AFF00 100%),radial-gradient(70% 53% at 36% 76%, #8AB4F8 0%, #073AFF00 100%),radial-gradient(42% 53% at 15% 94%, #FFFFFFFF 7%, #073AFF00 100%),radial-gradient(42% 53% at 34% 72%, #FFFFFFFF 7%, #073AFF00 100%),radial-gradient(18% 28% at 35% 87%, #FFFFFFFF 7%, #073AFF00 100%),radial-gradient(31% 43% at 7% 98%, #FFFFFFFF 24%, #073AFF00 100%),radial-gradient(21% 37% at 72% 23%, #f9f9f9 24%, #073AFF00 100%),radial-gradient(35% 56% at 91% 74%, #fff 9%, #073AFF00 100%),radial-gradient(35% 56% at 91% 74%, #fff 9%, #073AFF00 100%),radial-gradient(74% 86% at 67% 38%, #f9f9f9 24%, #073AFF00 100%),linear-gradient(125deg, #fff 1%, #f9f9f9 100%);
+}
+
+
+.masonry {
+  grid-template-rows: masonry;
+
+
+}
+
+/* Seu arquivo CSS ou componente styled-components */
+.clicked {
+  fill: #238536; /* Cor que você deseja quando o círculo é clicado */
+  cursor: pointer;
+}
