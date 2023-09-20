@@ -67,13 +67,21 @@ interface FormState {
 }
 
 type GraduateProgram = {
-  area: string
-  code: string
-  graduate_program_id: string
-  modality: string
-  name: string
-  rating: string
-  type: string
+  area: string;
+  code: string;
+  graduate_program_id: string;
+  modality: string;
+  name: string;
+  rating: string;
+  type: string;
+  city: string
+  state: string
+  instituicao: string
+  url_image: string
+  region: string
+  sigla: string
+  latitude: string
+  longitude: string
 }
 
 
@@ -88,7 +96,7 @@ export function Homepage() {
   const { urlGeral, setUrlGeral } = useContext(UserContext);
 
   const { idGraduateProgram, setIdGraduateProgram } = useContext(UserContext)
-  const urlGraduateProgram = `${urlGeral}/graduate_program?institution_id=fdd8b743-9664-4177-84ca-757146a93580`;
+  const urlGraduateProgram = `${urlGeral}/graduate_program_profnit`;
   const [graduateProgram, setGraduatePogram] = useState<GraduateProgram[]>([]);
 
   useEffect(() => {

@@ -46,6 +46,8 @@ export const App = () => {
 
   const [valorDigitadoPesquisaDireta, setValorDigitadoPesquisaDireta] = useState('');
 
+  const [estadoSelecionado, setEstadoSelecionado] = useState('');
+
   const [botaoPesquisadoresClicado, setBotaoPesquisadoresClicado] = useState(false);
   const [botaoTermosClicado, setBotaoTermosClicado] = useState(true);
   const [botaoResumoClicado, setBotaoResumoClicado] = useState(false);
@@ -62,7 +64,7 @@ export const App = () => {
   const [valoresSelecionadosPopUp, setValoresSelecionadosPopUp] = useState('');
   const [isPopUpVisible, setIsPopUpVisible] = useState(false);
 
-  const [idGraduateProgram, setIdGraduateProgram] = useState('1');
+  const [idGraduateProgram, setIdGraduateProgram] = useState('0');
 
   useEffect(() => {
   setValoresSelecionadosPopUp(valoresSelecionadosExport)
@@ -97,12 +99,14 @@ export const App = () => {
           isPopUpVisible, setIsPopUpVisible,
           distinct, setDistinct,
 
+          estadoSelecionado, setEstadoSelecionado,
+
 
           idGraduateProgram, setIdGraduateProgram
           }}>
           <Routes>
             <Route path='/' >
-            <Route path=':userId?' element={<StepOne/>}/>
+            <Route path=':userId?' element={<Profnit/>}/>
             </Route>
             <Route path='/search' element={<StepTwo/>}/>
             <Route path='/bem-vindo' element={<HomePageSimcc/>}/>

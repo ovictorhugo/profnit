@@ -54,6 +54,7 @@ export function ContentStepOne() {
 
   const urlGraduateProgram = `${urlGeral}/graduate_program?institution_id=fdd8b743-9664-4177-84ca-757146a93580`;
 
+  console.log(urlGraduateProgram)
   const [graduateProgram, setGraduatePogram] = useState<GraduateProgram[]>([]);
   const [ResearcherImage, setResearcherImage] = useState<ResearcherId[]>([])
   const urlResearcherImage = urlGeral + 'researcher_image'

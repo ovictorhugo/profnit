@@ -31,8 +31,8 @@ export function Header() {
           <Link to={"https://profnit.org.br/"} className="h-[32px] "><img src={cimatec} alt="" className="h-[30px]" /></Link>
         </div>
 
-        <div className="md:flex h-full hidden bg-white rounded-md   ml-4">
-          <a href={"https://www.senaicimatec.com.br/"} className="flex items-center h-full   px-4  text-gray-400 text-sm font-bold transition  gap-2"><PaperPlaneTilt size={16} className="text-gray-400" />SENAI | CIMATEC</a>
+        <div className="md:flex h-full hidden  rounded-md   ml-4">
+          
           
           <Link to={"/terms"} className="flex items-center h-full  px-4 text-gray-400 text-sm font-bold transition  gap-2"><ListDashes size={16} className="text-gray-400" />Dicionário</Link>
           <Link to={"/magazine"} className="flex items-center h-full  px-4 text-gray-400 text-sm font-bold transition  gap-2"><BookOpen size={16} className="text-gray-400" />Revistas</Link>

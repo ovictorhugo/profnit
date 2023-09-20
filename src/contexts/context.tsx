@@ -64,6 +64,9 @@ interface UserContextType {
 
   distinct:boolean,
   setDistinct: React.Dispatch<React.SetStateAction<boolean>>;
+
+  estadoSelecionado: string, 
+  setEstadoSelecionado: React.Dispatch<React.SetStateAction<string>>;
   }
 
 export const UserContext = createContext<UserContextType>({
@@ -113,4 +116,7 @@ intituicoesSelecionadasCheckbox: "",
 
   distinct: false,
   setDistinct: () => {},
+
+  estadoSelecionado: "", 
+  setEstadoSelecionado: () => {},
 });

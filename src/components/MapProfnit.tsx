@@ -12,6 +12,7 @@ import logo_2 from '../assets/logo_2.png';
 import logo_3 from '../assets/logo_3.png';
 import logo_4 from '../assets/logo_4.png';
 import logo_5 from '../assets/logo_5.png';
+import BrasilMap from "./BrasilMap";
 
 interface GraduateProgram {
   area: string;
@@ -23,6 +24,12 @@ interface GraduateProgram {
   type: string;
   city: string
   state: string
+  instituicao: string
+  url_image: string
+  region: string
+  sigla: string
+  latitude: string
+  longitude: string
 }
 
 interface GraphNode extends GraduateProgram {
@@ -42,17 +49,20 @@ interface Graph {
 
 export function MapProfnit() {
   const { urlGeral, setUrlGeral } = useContext(UserContext);
+  const { estadoSelecionado, setEstadoSelecionado } = useContext(UserContext);
   const svgRef = useRef<SVGSVGElement | null>(null);
   const [graduatePrograms, setGraduatePrograms] = useState<GraduateProgram[]>([]);
   const [selectedGraduateProgramId, setSelectedGraduateProgramId] = useState<string | null>(null);
   const [isSimulationRunning, setIsSimulationRunning] = useState<boolean>(true);
 
-  const { idGraduateProgram, setIdGraduateProgram } = useContext(UserContext)
+  const { idGraduateProgram, setIdGraduateProgram } = useContext(UserContext);
 
   function handleClick(name: string) {
     setIdGraduateProgram(name);
+    
   }
-  
+
+
 
   const urlGraduateProgram = `${urlGeral}/graduate_program_profnit`;
 
@@ -81,30 +91,42 @@ export function MapProfnit() {
   }, [urlGraduateProgram]);
 
   useEffect(() => {
-
     const COLORS = ["#238536", "#FFCF00", "#173DFF"];
 
-function getRandomColor() {
-  const randomIndex = Math.floor(Math.random() * COLORS.length);
-  return COLORS[randomIndex];
-}
-    const width = window.innerWidth; // Largura máxima igual à largura da janela
-    const height = window.innerHeight; // Altura igual à altura da janela
+    function getRandomColor() {
+      const randomIndex = Math.floor(Math.random() * COLORS.length);
+      return COLORS[randomIndex];
+    }
+
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    function calculatePosition(latitude: string, longitude: string): [number, number] {
+      // Converter as latitudes e longitudes em coordenadas x e y
+      const lat = parseFloat(latitude.replace(',', '.')); // Certifique-se de substituir ',' por '.' para garantir que seja um número válido
+      const long = parseFloat(longitude.replace(',', '.')); // Certifique-se de substituir ',' por '.' para garantir que seja um número válido
+    
+      // Faça uma conversão mais precisa de lat/long para coordenadas x/y usando projeções d3.geo ou outra técnica apropriada
+      // Por enquanto, vou usar uma fórmula simples para fins de exemplo
+      const x = (long + 180) * (width / 360); // Ajuste a escala para a largura da janela
+      const y = (90 - lat) * (height / 180); // Ajuste a escala para a altura da janela
+    
+      return [x, y];
+    }
+    
 
     const graph: Graph = {
-        nodes: graduatePrograms.map((program, index) => ({
-          ...program,
-          x: Math.random() * width,
-          y: Math.random() * height,
-          color: getRandomColor(), // Atribui uma cor aleatória a cada nó
-        })),
-        links: [],
-      };
+      nodes: graduatePrograms.map((program, index) => ({
+        ...program,
+        color: getRandomColor(),
+        ...calculatePosition(program.latitude, program.longitude),
+      })),
+      links: [],
+    };
 
-    // Criar links com base em programas que compartilham a mesma área
     graduatePrograms.forEach((programA, indexA) => {
       graduatePrograms.forEach((programB, indexB) => {
-        if (programA.area === programB.area && indexA !== indexB) {
+        if (programA.region === programB.region && indexA !== indexB) {
           graph.links.push({
             source: programA.graduate_program_id,
             target: programB.graduate_program_id,
@@ -114,48 +136,39 @@ function getRandomColor() {
     });
 
     const svg = d3.select(svgRef.current)
-      .attr("width", "100%") // Define a largura como 100% da largura máxima
-      .attr("height", "100vh"); // Define a altura como 100vh
+      .attr("width", "100%")
+      .attr("height", "100vh");
 
     const simulation = d3
       .forceSimulation<GraphNode, GraphLink>(graph.nodes)
       .force("charge", d3.forceManyBody().strength(0))
       .force("center", d3.forceCenter(width / 2, height / 2))
-     
       .force("link", d3.forceLink(graph.links).id((d) => d.graduate_program_id))
-      .alphaDecay(0) // Reduza a taxa de decaimento alpha
+      .alphaDecay(0)
       .on("tick", () => {
         link
-          .attr("x1", (d: GraphLink) => (d.source as GraphNode).x || 0)
-          .attr("y1", (d: GraphLink) => (d.source as GraphNode).y || 0)
-          .attr("x2", (d: GraphLink) => (d.target as GraphNode).x || 0)
-          .attr("y2", (d: GraphLink) => (d.target as GraphNode).y || 0);
-      
-        node.attr("cx", (d: GraphNode) => d.x || 0).attr("cy", (d: GraphNode) => d.y || 0);
+          .attr("x1", (d: GraphLink) => (d.source as GraphNode).x)
+          .attr("y1", (d: GraphLink) => (d.source as GraphNode).y)
+          .attr("x2", (d: GraphLink) => (d.target as GraphNode).x)
+          .attr("y2", (d: GraphLink) => (d.target as GraphNode).y);
 
-       
+        node.attr("cx", (d: GraphNode) => d.x).attr("cy", (d: GraphNode) => d.y);
       });
 
-      function tick() {
-        // Restante do código relacionado ao tick
-        if (isSimulationRunning) {
-          simulation.alpha(0.1).restart(); // Reinicie a simulação se estiver em execução
-        }else {
-            simulation.alphaTarget(0); // Reduza o alphaTarget para acelerar a simulação em standby
-          }
-          // ... (outros códigos relacionados ao tick)
-          requestAnimationFrame(tick);
+    function tick() {
+      if (isSimulationRunning) {
+        simulation.alpha(0.1).restart();
+      } else {
+        simulation.alphaTarget(0);
       }
+      requestAnimationFrame(tick);
+    }
 
-      // Inicie o loop de animação
     requestAnimationFrame(tick);
 
-     // Detectar quando a guia está em standby
-     document.addEventListener("visibilitychange", () => {
-        setIsSimulationRunning(document.visibilityState === "visible");
-      });
-
-      
+    document.addEventListener("visibilitychange", () => {
+      setIsSimulationRunning(document.visibilityState === "visible");
+    });
 
     const link = svg
       .selectAll("line")
@@ -165,7 +178,7 @@ function getRandomColor() {
       .attr("stroke", "#999")
       .attr("stroke-width", 1);
 
-      const node = svg
+    const node = svg
       .selectAll("circle")
       .data(graph.nodes)
       .enter()
@@ -197,23 +210,26 @@ function getRandomColor() {
         console.log(`Nó clicado: ${d.name}`);
       })
       .on("mouseover", (event, d) => {
-        d3.select(event.currentTarget).attr("fill", "#238536"); // Mudar a cor ao passar o mouse
+        d3.select(event.currentTarget).attr("fill", "#238536");
       })
       .on("mouseout", (event, d) => {
-        d3.select(event.currentTarget).attr("fill", "#174EA6"); // Restaurar a cor quando o mouse sai
+        d3.select(event.currentTarget).attr("fill", "#174EA6");
       });
-    
-  
-
 
     node.append("title").text((d) => d.name);
   }, [graduatePrograms]);
 
   //OUTRA LÓGICAAAA
+ 
 
   const toggleButtonOff = () => {
-    setSelectedGraduateProgramId("0");
+    setIdGraduateProgram("0");
   };
+
+  const toggleButtonOffState = () => {
+    setEstadoSelecionado("");
+  };
+
 
   //pesquisa
 
@@ -223,33 +239,11 @@ function getRandomColor() {
   );
 
   const estadosBrasileiros= [
-    'Acre',
-    'Alagoas',
-    'Amapá',
-    'Amazonas',
-    'Bahia',
-    'Ceará',
-    'Distrito Federal',
-    'Espírito Santo',
-    'Goiás',
-    'Maranhão',
-    'Mato Grosso',
-    'Mato Grosso do Sul',
-    'Minas Gerais',
-    'Pará',
-    'Paraíba',
-    'Paraná',
-    'Pernambuco',
-    'Piauí',
-    'Rio de Janeiro',
-    'Rio Grande do Norte',
-    'Rio Grande do Sul',
-    'Rondônia',
-    'Roraima',
-    'Santa Catarina',
-    'São Paulo',
-    'Sergipe',
-    'Tocantins'
+    'Norte',
+    'Nordeste',
+    'Centro-oeste',
+    'Sul',
+    'Sudeste'
   ];
 
    //
@@ -258,24 +252,21 @@ function getRandomColor() {
    const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
 
    
+  //idGraduateProgram
+   
+
 
   return (
     <div className="">
 
-      <div className="backgroundGradient opacity-70 h-screen w-full backdrop-blur-lg absolute top-0 z-[-9999]">
+      <div className="backgroundGradient opacity-60 animate-pulse h-screen w-full backdrop-blur-lg absolute top-0 z-[-9999]">
       </div>
 
-      <div className="h-screen absolute right-0"><SvgLines/></div>
-      <div>
-      <svg
-        ref={svgRef}
-        width="800"
-        height="600"
-        className=" p-0 m-0 absolute top-0 "
-      ></svg>
-      </div>
+    
 
-      <div className="px-6 md:px-16 flex justify-center h-screen flex-col">
+      <div className="w-full h-screen overflow-hidden flex items-center absolute "><BrasilMap/></div>
+
+      <div className="px-6 md:px-16 flex justify-center h-screen flex-col z-[999999] w-fit">
         <div className="h-[350px] absolute z-[-9] ml-16 "><Circle/></div>
       <h1 className="text-5xl mb-4 font-medium max-w-[750px] "><strong className="bg-blue-400 text-white font-normal">Escolha um programa</strong> e veja o que a plataforma filtra para você.</h1>
           <p className="max-w-[620px]  text-lg text-gray-400">Arraste ou clique em um dos pontos no gráfico para selecionar o programa de pós-graduação. Você também pode escolher pela lista abaixo </p>
@@ -310,13 +301,56 @@ function getRandomColor() {
                                       
                                   </div>
 
-      <div className="h-screen fixed top-0 right-0 pr-16 py-32">
-      {graduatePrograms.map(props => {
-         if (props.graduate_program_id === selectedGraduateProgramId) {
+      <div className="h-screen fixed top-0 right-0 pr-16 items-center justify-center flex">
+      <div className="flex flex-col gap-3 max-h-[470px] overflow-y-auto">
+        {graduatePrograms.map(props => {
+         if (props.state === estadoSelecionado && idGraduateProgram == "0") {
               return (
                 <li
                   key={props.graduate_program_id}
-                  className=" checkboxLabel group transition-all list-none h-full inline-flex group w-[350px]"
+                  className=" checkboxLabel group transition-all list-none inline-flex group w-[350px] "
+                  onMouseDown={(e) => e.preventDefault()}
+                  
+                >
+                  <label onClick={() => handleClick(props.graduate_program_id)} className={`justify-between w-full p-6 flex-col  cursor-pointer border-[1px] bg-white bg-opacity-70 backdrop-blur-sm border-gray-300 flex text-gray-400 rounded-md text-xs font-bold hover:border-blue-400 `}>
+                    <div className="flex flex-col">
+                    
+
+                    <div className="flex items-center gap-3">
+                    <div><img src={`${props.url_image}`} alt="" className="h-16 border-none w-auto"/></div>
+                      <div>
+                      <span className=" whitespace-normal text-base text-gray-400 mb-2 font-bold">{props.name}</span>
+                      <p className="font-medium flex gap-1 items-center"> <MapPin size={20} className="textwhite" /> {props.city} | {props.state}</p>
+                      </div>
+                    </div>
+                      
+                      
+                    </div>
+
+                   
+
+
+                    <input
+                      type="checkbox"
+                      name={props.name}
+                      className="absolute hidden group"
+                      onClick={() => handleClick(props.graduate_program_id)}
+                      id={props.name}
+
+                    />
+                  </label>
+                </li>
+              )
+                    }
+            })}
+      </div>
+            
+      {graduatePrograms.map(props => {
+         if (props.graduate_program_id === idGraduateProgram && props.state == estadoSelecionado ) {
+              return (
+                <li
+                  key={props.graduate_program_id}
+                  className=" checkboxLabel group transition-all list-none inline-flex group w-[350px] "
                   onMouseDown={(e) => e.preventDefault()}
                 >
                   <label className={`justify-between w-full p-6 flex-col cursor-pointer border-[1px] bg-white bg-opacity-70 backdrop-blur-sm border-gray-300 flex text-gray-400 rounded-md text-xs font-bold hover:border-blue-400 `}>
@@ -326,13 +360,13 @@ function getRandomColor() {
                     <div onClick={toggleButtonOff} className={`cursor-pointer rounded-full hover:bg-gray-100 h-[38px] w-[38px] transition-all flex items-center justify-center `}>
                         <X size={24} className={'rotate-180 transition-all text-gray-400'} />
                         </div>
-                     
                     </div>
+                      <div><img src={`${props.url_image}`} alt="" className="h-16 border-none mb-4 w-auto"/></div>
                       <span className=" whitespace-normal text-base text-gray-400 mb-2 font-bold">{props.name}</span>
                       <p className="font-medium">{props.code}</p>
 
                       <div className="flex gap-3 items-center text-base mt-8 font-medium ">
-                      <MapPin size={20} className="textwhite" /> {props.city}
+                      <MapPin size={20} className="textwhite" /> {props.city} | {props.state}
                       </div>
 
                       <div className="flex gap-2 mt-8 flex-wrap">
@@ -362,7 +396,7 @@ function getRandomColor() {
                     </div>
 
                     <div>
-                    <Link to={"/result"} className="w-full whitespace-nowrap flex items-center gap-4 bg-blue-400 text-white rounded-full px-6 py-2 justify-center hover:bg-blue-500 text-base font-medium transition">
+                    <Link to={"/result"}  onClick={() => handleClick(props.graduate_program_id)} className="w-full mt-8 whitespace-nowrap flex items-center gap-4 bg-blue-400 text-white rounded-full px-6 py-2 justify-center hover:bg-blue-500 text-base font-medium transition">
                         <ArrowRight size={16} className="text-white" /> Avançar
                     </Link>
                     </div>

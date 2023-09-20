@@ -11,6 +11,10 @@ body {
 
 }
 
+.zoomed {
+  transition: all 0.5s ease; /* Adicione aqui sua transição desejada */
+}
+
 /* bar invis[ivel*/
 
 .elementPesquisador::-webkit-scrollbar {
