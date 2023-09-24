@@ -33,7 +33,7 @@ export function Header() {
 
         <div className="md:flex h-full hidden  rounded-md   ml-4">
           
-          
+        <Link to={"/indicators"} className="flex items-center h-full  px-4 text-gray-400 text-sm font-bold transition  gap-2"><ChartLine size={16} className="text-gray-400" />Indicadores</Link>
           <Link to={"/terms"} className="flex items-center h-full  px-4 text-gray-400 text-sm font-bold transition  gap-2"><ListDashes size={16} className="text-gray-400" />Dicionário</Link>
           <Link to={"/magazine"} className="flex items-center h-full  px-4 text-gray-400 text-sm font-bold transition  gap-2"><BookOpen size={16} className="text-gray-400" />Revistas</Link>
 

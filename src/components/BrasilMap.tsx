@@ -148,11 +148,14 @@ brazilStateData.sort((a, b) => a[0].localeCompare(b[0]));
           data: brazilStateData,
           keys: ['PK_sigla', 'value'],
           joinBy: 'PK_sigla',
-          name: 'State Data',
+          
        
           // Habilitar drilldown para estados
-          allowPointSelect: true,
+          allowPointSelect: false,
           cursor: 'pointer',
+          tooltip: {
+            enabled: false, // Desativar o popup de hover
+          },
           point: {
             events: {
               // Lidar com o evento de clique para os estados

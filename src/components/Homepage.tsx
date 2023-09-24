@@ -1,4 +1,4 @@
-import { ArrowCircleDown, Info, Funnel, User, File, Buildings, MagnifyingGlass, Rows, Lightbulb, ArrowCircleUp, ChartLine, PaperPlaneTilt, Question, UserPlus, Users, BookmarkSimple, GraduationCap, Star } from "phosphor-react";
+import { ArrowCircleDown, Info, Funnel, User, File, Buildings, MagnifyingGlass, Rows, Lightbulb, ArrowCircleUp, ChartLine, PaperPlaneTilt, Question, UserPlus, Users, BookmarkSimple, GraduationCap, Star, MapPin } from "phosphor-react";
  
 
 import { Pesquisadores } from "./Pesquisadores";
@@ -24,6 +24,8 @@ import { PopUpPesquisadoresGroup } from "./PopUpPesquisadoresGroup";
 import Carregando from "./Carregando";
 import { Header } from "./Header";
 import { HomeInicial } from "./HomeInicial";
+import { Circle } from "./Circle";
+import { Circle2 } from "./Circle2";
 
 interface ButtonStyle extends React.CSSProperties {
   position: 'fixed';
@@ -190,7 +192,7 @@ export function Homepage() {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  let urlPalavrasChaves = `${urlGeral}lists_word_researcher?researcher_id=`
+  let urlPalavrasChaves = `${urlGeral}lists_word_researcher?graduate_program_id=${idGraduateProgram}&researcher_id=`
 
   useEffect(() => {
     const fetchData = async () => {
@@ -228,6 +230,9 @@ export function Homepage() {
     },
     credits: {
       enabled: false
+    },
+    exporting: {
+      enabled: false, // Remove a opção de menu para baixar o gráfico
     },
     series: [
       {
@@ -344,6 +349,9 @@ export function Homepage() {
           height: '590px', // Define a altura como 100% da tela
           position: "relative",
         },
+        exporting: {
+          enabled: false, // Remove a opção de menu para baixar o gráfico
+        },
         title: {
           text: "",
         },
@@ -357,6 +365,7 @@ export function Homepage() {
           labels: {
             enabled: false, // Remove as legendas do eixo y
           },
+          gridLineWidth: 0, // Remove as linhas de referência do eixo y
         },
         series: [
           {
@@ -377,7 +386,7 @@ export function Homepage() {
                 y2: 1,
               },
               stops: [
-                [0, "#005399"],   // Cor inicial (transparente)
+                [0, "#7D96FF"],   // Cor inicial (transparente)
                 [1, "#ffffff"],       // Cor final (#005399)
               ],
             },
@@ -398,26 +407,29 @@ export function Homepage() {
 
       <Header />
       <div className="overflow-hidden absolute  py-24 px-6 md:px-16 w-full">
-        <div className="z-[-999999999] w-[120%] absolute top-[0] left-[-100px]">
+        <div className="z-[-999999999] w-[120%] absolute top-[-5] left-[-100px]">
           <HighchartsReact highcharts={Highcharts} options={chartOptions} />
         </div>
 
         <div className="rounded-lg">
-          <div className="bg-blue-400 min-h-[340px] flex items-center bg-opacity-30 backdrop-blur-sm rounded-lg">
-            <div className="flex w-full h-full px-10 items-start justify-start">
+          <div className=" min-h-[340px] flex items-center ">
+            <div className=" w-full h-full items-start justify-start testeeee grid grid-cols-2">
               <div className=" flex flex-col  h-full transition py-12">
-                <label htmlFor="" className=" relative  p-2 text-gray-400 rounded-full border-[1px] border-solid border-gray-300 justify-center items-center inline-flex outline-none px-6 bg-white gap-3 text-xs font-medium w-fit transition focus:bg-blue-100">Informações Analíticas da Pós-Graduação</label>
-                <h1 className="text-left text-white  max-w-[800px] font-medium text-3xl mb-2">Pesquise um termo no programa de pós-graduação 
+            
                 {graduateProgram.map(props => {
-                    if (props.graduate_program_id === idGraduateProgram) {
-                      return (` ${props.name}`)
-                    }
-                })
+              if (props.graduate_program_id === idGraduateProgram) {
+                return (
+                  <div className="flex flex-col h-full transition ">
+                   <div><img src={`${props.url_image}`} alt="" className="h-12 border-none w-auto mb-4"/></div>
+                    <h1 className="text-left max-w-[700px] font-medium text-5xl mb-2">
+                      <strong className="bg-blue-400 text-white font-medium">Pesquise um termo </strong>
+                      no programa de pós-graduação {props.name}
+                    </h1>
+                    <p className="text-gray-400 max-w-[500px] ">Para ajudar a sua pesquisa, fornecemos uma lista extensa de termos e áreas de especialidade, abrangendo diversos setores.</p>
+                  </div>
+                );
               }
-                </h1>
-                <p className="text-white ">Para ajudar a sua pesquisa, fornecemos uma lista extensa de termos e áreas de especialidade, abrangendo diversos setores.</p>
-
-
+            })}
                 <div className="flex mt-6 w-full">
                   {graduateProgram.map(props => {
                     if (props.graduate_program_id === idGraduateProgram) {
@@ -428,7 +440,7 @@ export function Homepage() {
 
                             <div className="border-[1px] border-gray-300 py-2 flex px-4 text-gray-400 rounded-md text-xs font-medium w-fit bg-white">{props.area}</div>
 
-                            <div className="border-[1px] border-gray-300 py-2 flex px-4 text-gray-400 rounded-md text-xs font-medium w-fit bg-white">{props.name}</div>
+                            <div className="border-[1px] border-gray-300 py-2 flex px-4 text-gray-400 rounded-md text-xs font-medium w-fit bg-white gap-1 items-center"><MapPin size={12} className="" /> {props.city}</div>
 
 
                             {props.type.split(';').map((value, index) => {
@@ -462,6 +474,10 @@ export function Homepage() {
                     }
                   })}
                 </div>
+              </div>
+
+              <div id="nuveeeem" className="flex w-full h-full items-center">
+              <HighchartsReact highcharts={Highcharts} options={options} className="h-full" />
               </div>
 
               <div>
