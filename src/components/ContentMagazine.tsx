@@ -4,6 +4,7 @@ import { useEffect, useState, useContext } from "react";
 import { Header } from "./Header";
 import { CalendarBlank, CaretCircleLeft, CaretCircleRight, File, Graph, Hash, LinkBreak, MagnifyingGlass, Quotes } from "phosphor-react";
 import Carregando from "./Carregando";
+import { MagazineSvg } from "./MagazineSvg";
 
 type Magazine = {
     id: string,
@@ -20,7 +21,7 @@ export function ContentMagazine() {
     const [isLoading, setIsLoading] = useState(false);  
       const [filterValue, setFilterValue] = useState("");
 
-    let urlMagazine = `${urlGeral}magazine?initials=${filterValue}&issn=`
+    let urlMagazine = `${urlGeral}magazine?initials=&issn=`
     const [magazine, setMagazine] = useState<Magazine[]>([]);
 
     useEffect(() => {
@@ -65,9 +66,11 @@ export function ContentMagazine() {
     'SQ': 'bg-[#560B11]'
 }
 
-  const filteredResults = magazine.filter(props =>
-    props.magazine.toUpperCase().includes(filterValue.toUpperCase())
-  );
+const filteredResults = magazine.filter(prop =>
+  prop.magazine.toUpperCase().includes(filterValue.toUpperCase()) ||
+  prop.issn.includes(filterValue)
+);
+
 
  const [currentPage, setCurrentPage] = useState(1);
   const resultsPerPage = 12;
@@ -80,19 +83,19 @@ export function ContentMagazine() {
     return  (
         <div className="h-screen">
 
-            <Header/>
+<Header/>
 
-            <div className="overflow-hidden absolute  py-24 px-6 md:px-16 w-full">
-                <div className="bg-blue-400 min-h-[340px] flex items-center bg-opacity-30 backdrop-blur-sm rounded-lg">
-                <div className=" grid grid-cols-2 w-full h-full px-10 items-center justify-center">
-                <div>
-                  <h1 className="text-left text-white lg:leading-[3.5rem] max-w-[500px] font-light text-4xl mb-2">Pesquise <strong className="bg-red-400">o nome da revista</strong> para ver o Qualis e JCR</h1>
+            <div className="overflow-hidden absolute   px-6 md:px-16 w-full">
+                <div className="h-screen py-20  flex items-center ">
+                <div className="bg-blue-400 rounded-2xl flex flex-col w-full h-full p-16 items-center justify-center">
+                <div className="flex justify-center flex-col items-center mb-12">
+                  <h1 className="text-white   font-light text-4xl mb-2">Pesquise <strong className="bg-green-400">o nome da revista ou ISSN</strong> para ver o Qualis e JCR</h1>
                 <p className="text-white ">Para ajudar a sua pesquisa, fornecemos uma lista extensa de revistas e suas classificações.</p>
 
                
                 </div>
-                <div>
-                   <div className="flex bg-white mb-6 w-full items-center justify-center border-gray-300 border-[1px] rounded-lg py-4">
+                <div className="z-[999] w-full flex justify-center">
+                   <div className="flex bg-white mb-6 w-[70%] items-center justify-center border-gray-300 border-[1px] rounded-lg py-4">
                         <MagnifyingGlass size={20} className={`text-gray-400 min-w-[52px] `} />
                         <input
                           type="text"
@@ -104,10 +107,12 @@ export function ContentMagazine() {
                       </div>
                 </div>
                 </div>
+
+                <div className="w-full absolute -top-48 left-0 "><MagazineSvg/></div>
             </div>
 
              <div className="pt-12">
-        <h2 className="mb-4 text-2xl font-medium text-gray-400">Revistas encontradas <strong className="font-bold text-white bg-blue-400">pelo título</strong></h2>
+        <h2 className="mb-4 text-3xl font-medium text-gray-400">Revistas encontradas <strong className="font-bold text-white bg-green-400">pelo título</strong></h2>
         {filterValue.length == 0 ? (<p className="text-gray-400 mb-8">Mostrando todas as revistas, digite para aparecer mais</p>) : (<p className="text-gray-400 mb-8">Mostrando todas as revistas com "{filterValue}" contido no título</p>)}
       </div>
 

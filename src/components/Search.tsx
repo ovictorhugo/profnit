@@ -666,6 +666,83 @@ function myWrapperFunction() {
         handleClick();
       }
     };
+
+
+    //palavras mais pesquisadas
+    interface PalavrasChaves {
+      term: string;
+      among: number;
+    }
+
+    const [words, setWords] = useState<PalavrasChaves[]>([]);
+
+  const [isLoading, setIsLoading] = useState(false);
+
+    let urlPalavrasChaves = `${urlGeral}lists_word_researcher?graduate_program_id=${idGraduateProgram}&researcher_id=`
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch(urlPalavrasChaves, {
+          mode: 'cors',
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET',
+            'Access-Control-Allow-Headers': 'Content-Type',
+            'Access-Control-Max-Age': '3600',
+            'Content-Type': 'text/plain'
+          }
+        });
+        const data = await response.json();
+        if (data) {
+          setWords(data);
+        }
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchData();
+  }, [urlPalavrasChaves]);
+
+  const [itensSelecionadosWords, setItensSelecionadosWords] = useState<string[]>([]);
+
+    const handleCheckboxChangeInputWords = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const { name } = event.target;
+      const isChecked = event.target.checked;
+
+      setItensSelecionadosWords((prevSelecionados) => {
+        if (isChecked) {
+          return [...prevSelecionados, name];
+        } else {
+          return prevSelecionados.filter((item) => item !== name);
+        }
+      });
+    };
+
+    const checkboxItemsWords = words.slice(0, 10).map((resultado) => (
+      <li
+        key={resultado.term}
+        className="checkboxLabel group list-none inline-flex group overflow-hidden"
+        onMouseDown={(e) => e.preventDefault()}
+      >
+        <label className="group-checked:bg-blue-400 cursor-pointer border-[1px] bg-white border-gray-300 flex h-10 items-center px-4 text-gray-400 rounded-md text-xs font-bold hover:border-blue-400 hover:bg-blue-100">
+          <span className="text-center block">{resultado.term.replace(/;/g, ' ')}</span>
+          <input
+            type="checkbox"
+            name={resultado.term}
+            className="absolute hidden group"
+            checked={itensSelecionados.includes(resultado.term)}
+            id={resultado.term}
+            onChange={handleCheckboxChangeInput}
+            onClick={handleClickTermos}
+          />
+        </label>
+      </li>
+    ));
+
     return (
       <div className=' m-[0 auto] w-full px-6 md:px-16 '>
 
@@ -791,6 +868,8 @@ function myWrapperFunction() {
                   )}
                 </div>
 
+
+
                 <div className='block  w-full ' >
                   <p className='mb-4'>Nome</p>
                   {checkboxPesquisadores || <p className='text-gray-500 text-lg'>num</p>}
@@ -835,6 +914,15 @@ function myWrapperFunction() {
           )}
 
         </div>
+
+        {valoresSelecionadosExport == "" ? (
+                  <div className='testeeeaq mt-4 flex gap-3 items-center'>
+                    <p className='text-gray-400 text-sm font-bold'>Sugestões:</p>
+                    <div className='gap-4 flex'>{checkboxItemsWords}</div>
+                  </div>
+                ):(
+                  <div></div>
+                )}
 
       </div>
     );

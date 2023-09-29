@@ -191,12 +191,12 @@ export function Pesquisadores() {
     });
   };
 
-  useEffect(() => {
-    Cookies.set("itensSelecionados", itensSelecionados.join(";"), { expires: 7 });
-  }, [itensSelecionados]);
+  
 
-  const { pesquisadoresSelecionadosGroup, setPesquisadoresSelecionadosGroups } = useContext(UserContext);
-  setPesquisadoresSelecionadosGroups(itensSelecionados.join(";"))
+  const { pesquisadoresSelecionadosGroupBarema, setPesquisadoresSelecionadosGroupBarema } = useContext(UserContext);
+
+  
+ 
 
 
   //resetr pesquisa

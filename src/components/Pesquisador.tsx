@@ -169,8 +169,8 @@ export function Pesquisador(props: PesquisadorProps) {
 
             </div>
 
-            <div className={`flex whitespace-nowrap  flex-col   relative ${isOn && valoresSelecionadosExport != '' ? "top-0 ml-6" : "top-[-30px] items-center"}`}>
-              <h4 className={`text-lg font-medium   mb-1 ${isOn && valoresSelecionadosExport != '' ? "text-left" : " px-8 text-center"}`}>{props.name}</h4>
+            <div className={`flex  flex-col   relative ${isOn && valoresSelecionadosExport != '' ? "top-0 ml-6" : "top-[-30px] items-center"}`}>
+              <h4 className={`text-lg font-medium  mb-1 ${isOn && valoresSelecionadosExport != '' ? "text-left" : " px-8 text-center"}`}>{props.name}</h4>
               <div className="flex items-center gap-2">
                 {props.image == "None" ? (
                   <Buildings size={16} className="text-gray-500" />
@@ -202,13 +202,24 @@ export function Pesquisador(props: PesquisadorProps) {
               </div>
             </div>
           ) : (
-            <head></head>
+            <div id="main" className={`flex-wrap flex h-full  gap-3 items-center overflow-x-hidden whitespace-nowrap ${isOn && valoresSelecionadosExport != '' ? "ml-6 justify-start" : "mb-6 items-center justify-center"}`}>
+            
+            {props.city != "None" ? (
+              <div className="bg-blue-400 py-2 px-4 text-white rounded-md text-xs font-bold flex gap-2 items-center"><MapPin size={12} className="textwhite" /> {props.city}</div>
+            ):('')}
+
+            {props.graduation != "None" ? (
+              <div className="bg-blue-400 py-2 px-4 text-white rounded-md text-xs font-bold flex gap-2 items-center"><GraduationCap size={12} className="textwhite" /> {props.graduation}</div>
+            ):('')}
+
+          </div>
           )}
 
         </div>
+        <div className={` whitespace-nowrap  flex items-center justify-center rounded-md ${isOn && valoresSelecionadosExport != '' ? "float-right right-0 relative top-0 items-center flex justify-center" : " mt-5 w-full flex-col mx-4 pb-4"}`}>
 
         {valoresSelecionadosExport != "" || valorDigitadoPesquisaDireta != "" ? (
-          <div className={` whitespace-nowrap  flex items-center justify-center rounded-md ${isOn && valoresSelecionadosExport != '' ? "float-right right-0 relative top-0 items-center flex justify-center" : " mt-5 w-full flex-col mx-4 pb-4"}`}>
+          
             <div className="flex gap-3 relative">
               {(botaoTermosClicado && props.among != 0) || (botaoAreasClicado && props.among != null) ? (
                 <div className="text-blue-400 flex text-sm font-bold gap-3">
@@ -222,7 +233,12 @@ export function Pesquisador(props: PesquisadorProps) {
 
             </div>
 
-            <div className="flex flex-1 gap-4 items-center justify-between relative px-4">
+           
+        ) : (
+          <head></head>
+        )}
+
+        <div className="flex flex-1 gap-4 items-center justify-between relative px-4">
               <div className={`flex gap-3 ${isOn && valoresSelecionadosExport != '' ? "" : "mt-6"}`}>
                 <div className=" border-[1px] border-gray-300 py-2 flex px-4 text-gray-400 rounded-md text-xs font-medium">{props.articles} artigos</div>
                 <div className="border-[1px] border-gray-300 py-2 flex px-4 text-gray-400 rounded-md text-xs font-medium">{props.book} livros</div>
@@ -230,16 +246,16 @@ export function Pesquisador(props: PesquisadorProps) {
               </div>
             </div>
           </div>
-        ) : (
-          <head></head>
-        )}
 
         {isOn ? (
           <head></head>
         ) : (
           <div className="w-full  h-32 absolute bottom-0 hidden group-hover:flex py-6 px-2">
-            <div className="bg-white w-full h-full flex justify-center items-center">
+            <div className="bg-white w-full h-full flex justify-center items-center gap-2">
               <a href={`https://lattes.cnpq.br/${props.lattes_id}`} target="blank_" className="bg-blue-400 py-2 px-4 text-white rounded-md text-xs font-bold flex gap-2 items-center w-fit"><LinkSimple size={12} className="textwhite" /> Currículo Lattes</a>
+              {props.orcid != "None" ? (
+                <a href={`https://orcid.org/${props.orcid}`} target="blank_" className="bg-blue-400 py-2 px-4 text-white rounded-md text-xs font-bold flex gap-2 items-center w-fit"><LinkSimple size={12} className="textwhite" /> ORCID</a>
+              ):('')}
             </div>
           </div>
         )}

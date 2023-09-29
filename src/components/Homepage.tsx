@@ -26,6 +26,7 @@ import { Header } from "./Header";
 import { HomeInicial } from "./HomeInicial";
 import { Circle } from "./Circle";
 import { Circle2 } from "./Circle2";
+import { VisaoPrograma } from "./VisaoPrograma";
 
 interface ButtonStyle extends React.CSSProperties {
   position: 'fixed';
@@ -348,12 +349,16 @@ export function Homepage() {
           fontFamily: "Ubuntu, sans-serif",
           height: '590px', // Define a altura como 100% da tela
           position: "relative",
+          border: 'none'
         },
         exporting: {
           enabled: false, // Remove a opção de menu para baixar o gráfico
         },
         title: {
           text: "",
+        },
+        legend: {
+          enabled: false, // Defina esta propriedade como false para remover a legenda
         },
         xAxis: {
           categories,
@@ -407,9 +412,11 @@ export function Homepage() {
 
       <Header />
       <div className="overflow-hidden absolute  py-24 px-6 md:px-16 w-full">
-        <div className="z-[-999999999] w-[120%] absolute top-[-5] left-[-100px]">
+       
+        <div className="z-[-999999999] w-[120%] absolute top-[30px] left-[-100px]">
           <HighchartsReact highcharts={Highcharts} options={chartOptions} />
         </div>
+       
 
         <div className="rounded-lg">
           <div className=" min-h-[340px] flex items-center ">
@@ -420,10 +427,10 @@ export function Homepage() {
               if (props.graduate_program_id === idGraduateProgram) {
                 return (
                   <div className="flex flex-col h-full transition ">
-                   <div><img src={`${props.url_image}`} alt="" className="h-12 border-none w-auto mb-4"/></div>
-                    <h1 className="text-left max-w-[700px] font-medium text-5xl mb-2">
-                      <strong className="bg-blue-400 text-white font-medium">Pesquise um termo </strong>
-                      no programa de pós-graduação {props.name}
+                   <div><img src={`${props.url_image}`} alt="" className="h-16 border-none w-auto mb-4"/></div>
+                   <div className="h-[350px] absolute z-[-9] ml-16 scale-x-[-1] "><Circle2/></div>
+                    <h1 className="text-left max-w-[670px] font-medium text-4xl mb-2">
+                      <strong className="bg-blue-400 text-white font-medium">Pesquise um termo</strong> no programa de pós-graduação {props.name}
                     </h1>
                     <p className="text-gray-400 max-w-[500px] ">Para ajudar a sua pesquisa, fornecemos uma lista extensa de termos e áreas de especialidade, abrangendo diversos setores.</p>
                   </div>
@@ -509,7 +516,11 @@ export function Homepage() {
 
 
         {valoresSelecionadosExport == "" && valorDigitadoPesquisaDireta == "" ? (
-          <HomeInicial />
+          
+          <div>
+            <VisaoPrograma/>
+            <HomeInicial />
+          </div>
         ) : (
           <Tabs className="w-full items-center flex flex-col " defaultIndex={0}>
             <div className="flex items-center justify-between w-full mt-6  px-6 md:px-16 m-[0 auto]">

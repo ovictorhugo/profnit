@@ -206,7 +206,7 @@ brazilStateData.sort((a, b) => a[0].localeCompare(b[0]));
     };
   }, [graduatePrograms]); // O array vazio garante que o useEffect seja executado apenas uma vez na montagem
 
-  return <div className='w-full h-[100%] absolute ' id="container" />;
+  return <div className='w-[140%] h-[130%] left-[-20px] absolute ' id="container" />;
 }
 
 export default BrasilMap;

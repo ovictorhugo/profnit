@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Outlet, Navigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import  { UserContext }  from '../src/contexts/context'
 import { Home } from './pages/Home';
@@ -31,10 +31,13 @@ import { Profnit } from './pages/Profnit';
 
 
 
+
+
 //rotas protegidas
 
 
 export const App = () => {
+  
   const [urlTermExport, setUrlTermExport] = useState('');
   const [valoresSelecionadosExport, setValoresSelecionadosExport] = useState('');
 
@@ -54,7 +57,7 @@ export const App = () => {
   const [botaoAreasClicado, setBotaoAreasClicado] = useState(false);
   
   const [urlGeral, setUrlGeral] = useState('http://177.16.238.234:5001/');
-  const [pesquisadoresSelecionadosGroup, setPesquisadoresSelecionadosGroups] = useState('');
+  const [pesquisadoresSelecionadosGroupBarema, setPesquisadoresSelecionadosGroupBarema] = useState('');
   const [user, setUser] = useState<User>({} as User)
   const [isOn, setIsOn] = useState(false);
   const [enabled, setEnabled] = useState(false);
@@ -88,7 +91,7 @@ export const App = () => {
           botaoResumoClicado, setBotaoResumoClicado,
           botaoAreasClicado, setBotaoAreasClicado,
           urlGeral, setUrlGeral,
-          pesquisadoresSelecionadosGroup, setPesquisadoresSelecionadosGroups,
+          pesquisadoresSelecionadosGroupBarema, setPesquisadoresSelecionadosGroupBarema,
           user, setUser,
           isOn, setIsOn,
           enabled, setEnabled,
@@ -116,9 +119,20 @@ export const App = () => {
             <Route path='/terms' element={<Terms/>}/>
             <Route path='/login' element={<Login/>}/>
             <Route path='/chat' element={<Chat/>}/>
-            <Route path='/result' element={<Home/>}/>
+           
 
             <Route path='/profnit' element={<Profnit/>}/>
+
+            <Route
+            path='/result'
+            element={
+              idGraduateProgram !== "0" ? (
+                <Home />
+              ) : (
+                <Navigate to='/' replace state={{}} />
+              )
+            }
+          />
 
 
             <Route path='/barema' element={<BaremaPage/>}/>

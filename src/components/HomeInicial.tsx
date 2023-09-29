@@ -78,7 +78,15 @@ export function HomeInicial() {
 
   return (
     <div className="w-full px-6 md:px-16 mt-6 mb-24">
-      <div id="contentPesquisador" className={`grid grid-cols-1 md:grid-cols-2 gap-6  m-[0 auto] w-full lg:grid-cols-4 2xl:grid-cols-4`}>
+      <div id="contentPesquisador" className={`grid grid-cols-1 md:grid-cols-2 gap-6  m-[0 auto] w-full lg:grid-cols-3 2xl:grid-cols-4`}>
+      <div className="flex gap-4 w-full pb-8 justify-between items-center min-w-full">
+            <div className="flex gap-4">
+              <ListNumbers size={24} className="text-gray-400 whitespace-nowrap min-h-8" />
+              <p className="text-gray-400">Quadro geral de docentes do programa de pós-graduação.  Aqui estão informações sobre os professores e pesquisadores envolvidos no programa.</p>
+            </div>
+
+          </div>
+
         {researcher.map((user, index) => (
           <div key={user.id} className=" group justify-end flex w-full transition-all" >
 

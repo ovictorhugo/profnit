@@ -53,16 +53,16 @@ export function PesquisadoresGroup() {
 
   const { botaoPesquisadoresClicado, setBotaoPesquisadoresClicado } = useContext(UserContext);
   const { urlGeral, setUrlGeral } = useContext(UserContext);
-  const { pesquisadoresSelecionadosGroup, setPesquisadoresSelecionadosGroups } = useContext(UserContext);
+  const { pesquisadoresSelecionadosGroupBarema, setPesquisadoresSelecionadosGroupBarema } = useContext(UserContext);
 
   const valorCookie = Cookies.get("itensSelecionadosPesquisador");
   const [itensSelecionadosPesquisador, setItensSelecionadosPesquisador] = useState(valorCookie || "");
-  setPesquisadoresSelecionadosGroups(itensSelecionadosPesquisador)
+  
 
-  let urlTermPesquisadores = `${urlGeral}/researcherName?name=${pesquisadoresSelecionadosGroup}`
+  let urlTermPesquisadores = `${urlGeral}/researcherName?name=${pesquisadoresSelecionadosGroupBarema}`
 
   if (botaoPesquisadoresClicado) {
-    urlTermPesquisadores = `${urlGeral}/researcherName?name=${pesquisadoresSelecionadosGroup}`;
+    urlTermPesquisadores = `${urlGeral}/researcherName?name=${pesquisadoresSelecionadosGroupBarema}`;
   }
 
   const [itensSelecionados, setItensSelecionados] = useState<string[]>([]);
@@ -93,8 +93,7 @@ export function PesquisadoresGroup() {
   }, [itensSelecionados]);
 
 
-  setPesquisadoresSelecionadosGroups(itensSelecionados.join(";"))
-  console.log("ESSE PESQUISADOREEES SELECIONADOS" + pesquisadoresSelecionadosGroup)
+ 
 
   useEffect(() => {
     const fetchData = async () => {

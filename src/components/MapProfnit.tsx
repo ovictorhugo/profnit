@@ -7,12 +7,15 @@ import { Circle } from "./Circle";
 import DropdownMultiSelect from "./DropdownMultiSelect";
 import { SvgLines } from "./SvgLines";
 
+import { useTranslation } from 'react-i18next';
+
 import logo_1 from '../assets/logo_1.png';
 import logo_2 from '../assets/logo_2.png';
 import logo_3 from '../assets/logo_3.png';
 import logo_4 from '../assets/logo_4.png';
 import logo_5 from '../assets/logo_5.png';
 import BrasilMap from "./BrasilMap";
+
 
 interface GraduateProgram {
   area: string;
@@ -57,8 +60,19 @@ export function MapProfnit() {
 
   const { idGraduateProgram, setIdGraduateProgram } = useContext(UserContext);
 
+  const { t } = useTranslation();
+
+  
+
   function handleClick(name: string) {
     setIdGraduateProgram(name);
+    
+  }
+  const [valueInstPesquisa, setValueInstPesquisa] = useState('')
+  function handleClickPesquisa(name: string, id: string) {
+    setIdGraduateProgram(id);
+    setFilterValue(name)
+    setValueInstPesquisa(name)
     
   }
 
@@ -90,140 +104,13 @@ export function MapProfnit() {
     fetchData();
   }, [urlGraduateProgram]);
 
-  useEffect(() => {
-    const COLORS = ["#238536", "#FFCF00", "#173DFF"];
-
-    function getRandomColor() {
-      const randomIndex = Math.floor(Math.random() * COLORS.length);
-      return COLORS[randomIndex];
-    }
-
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-
-    function calculatePosition(latitude: string, longitude: string): [number, number] {
-      // Converter as latitudes e longitudes em coordenadas x e y
-      const lat = parseFloat(latitude.replace(',', '.')); // Certifique-se de substituir ',' por '.' para garantir que seja um número válido
-      const long = parseFloat(longitude.replace(',', '.')); // Certifique-se de substituir ',' por '.' para garantir que seja um número válido
-    
-      // Faça uma conversão mais precisa de lat/long para coordenadas x/y usando projeções d3.geo ou outra técnica apropriada
-      // Por enquanto, vou usar uma fórmula simples para fins de exemplo
-      const x = (long + 180) * (width / 360); // Ajuste a escala para a largura da janela
-      const y = (90 - lat) * (height / 180); // Ajuste a escala para a altura da janela
-    
-      return [x, y];
-    }
-    
-
-    const graph: Graph = {
-      nodes: graduatePrograms.map((program, index) => ({
-        ...program,
-        color: getRandomColor(),
-        ...calculatePosition(program.latitude, program.longitude),
-      })),
-      links: [],
-    };
-
-    graduatePrograms.forEach((programA, indexA) => {
-      graduatePrograms.forEach((programB, indexB) => {
-        if (programA.region === programB.region && indexA !== indexB) {
-          graph.links.push({
-            source: programA.graduate_program_id,
-            target: programB.graduate_program_id,
-          });
-        }
-      });
-    });
-
-    const svg = d3.select(svgRef.current)
-      .attr("width", "100%")
-      .attr("height", "100vh");
-
-    const simulation = d3
-      .forceSimulation<GraphNode, GraphLink>(graph.nodes)
-      .force("charge", d3.forceManyBody().strength(0))
-      .force("center", d3.forceCenter(width / 2, height / 2))
-      .force("link", d3.forceLink(graph.links).id((d) => d.graduate_program_id))
-      .alphaDecay(0)
-      .on("tick", () => {
-        link
-          .attr("x1", (d: GraphLink) => (d.source as GraphNode).x)
-          .attr("y1", (d: GraphLink) => (d.source as GraphNode).y)
-          .attr("x2", (d: GraphLink) => (d.target as GraphNode).x)
-          .attr("y2", (d: GraphLink) => (d.target as GraphNode).y);
-
-        node.attr("cx", (d: GraphNode) => d.x).attr("cy", (d: GraphNode) => d.y);
-      });
-
-    function tick() {
-      if (isSimulationRunning) {
-        simulation.alpha(0.1).restart();
-      } else {
-        simulation.alphaTarget(0);
-      }
-      requestAnimationFrame(tick);
-    }
-
-    requestAnimationFrame(tick);
-
-    document.addEventListener("visibilitychange", () => {
-      setIsSimulationRunning(document.visibilityState === "visible");
-    });
-
-    const link = svg
-      .selectAll("line")
-      .data(graph.links)
-      .enter()
-      .append("line")
-      .attr("stroke", "#999")
-      .attr("stroke-width", 1);
-
-    const node = svg
-      .selectAll("circle")
-      .data(graph.nodes)
-      .enter()
-      .append("circle")
-      .attr("r", 10)
-      .attr("fill", "#174EA6")
-      .attr("cursor", "pointer")
-      .call(
-        d3
-          .drag()
-          .on("start", (event, d) => {
-            if (!event.active) simulation.alphaTarget(0.9).restart();
-            d.fx = d.x;
-            d.fy = d.y;
-          })
-          .on("drag", (event, d) => {
-            d.fx = event.x;
-            d.fy = event.y;
-          })
-          .on("end", (event, d) => {
-            if (!event.active) simulation.alphaTarget(0);
-            d.fx = null;
-            d.fy = null;
-          })
-      )
-      .on("click", (event, d) => {
-        simulation.alpha(0.3).restart();
-        setSelectedGraduateProgramId(d.graduate_program_id);
-        console.log(`Nó clicado: ${d.name}`);
-      })
-      .on("mouseover", (event, d) => {
-        d3.select(event.currentTarget).attr("fill", "#238536");
-      })
-      .on("mouseout", (event, d) => {
-        d3.select(event.currentTarget).attr("fill", "#174EA6");
-      });
-
-    node.append("title").text((d) => d.name);
-  }, [graduatePrograms]);
 
   //OUTRA LÓGICAAAA
  
 
   const toggleButtonOff = () => {
     setIdGraduateProgram("0");
+    setEstadoSelecionado("");
   };
 
   const toggleButtonOffState = () => {
@@ -235,16 +122,10 @@ export function MapProfnit() {
 
   const [filterValue, setFilterValue] = useState("");
   const filteredResults = graduatePrograms.filter(props =>
-    props.name.toUpperCase().includes(filterValue.toUpperCase())
+    props.name.toUpperCase().includes(filterValue.toUpperCase()) ||
+    props.instituicao.toUpperCase().includes(filterValue.toUpperCase())
   );
 
-  const estadosBrasileiros= [
-    'Norte',
-    'Nordeste',
-    'Centro-oeste',
-    'Sul',
-    'Sudeste'
-  ];
 
    //
    const [isOpen, setIsOpen] = useState(false);
@@ -253,40 +134,118 @@ export function MapProfnit() {
 
    
   //idGraduateProgram
-   
+  function handleFilterChange(newValue: string) {
+    setFilterValue(newValue);
+  
+    // Inicialize idGraduateProgram como 0 ou outro valor padrão
+    let matchedId = '0';
+  
+    // Verificar se filterValue corresponde a props.name ou props.instituicao em qualquer programa
+    graduatePrograms.forEach((program) => {
+      if (
+        program.name.toUpperCase().includes(newValue.toUpperCase()) ||
+        program.instituicao.toUpperCase().includes(newValue.toUpperCase())
+      ) {
+        matchedId = String(program.graduate_program_id); // Converte o id para string
+      
+      }
+    });
+  
+    // Definir idGraduateProgram com o id correspondente (ou '0' se não houver correspondência)
+    setIdGraduateProgram(matchedId);
+  }
+  
 
 
   return (
-    <div className="">
+    <div className="h-screen max-h-screen overflow-y-hidden  overflow-x-hidden flex items-center">
 
       <div className="backgroundGradient opacity-60 animate-pulse h-screen w-full backdrop-blur-lg absolute top-0 z-[-9999]">
       </div>
 
-    
+      <div className="h-[70%] absolute z-[-9999]  bottom-0 right-0"><SvgLines/></div>
 
-      <div className="w-full h-screen overflow-hidden flex items-center absolute "><BrasilMap/></div>
+      <div className="w-full h-screen max-h-screen overflow-y-hidden  overflow-hidden flex items-center absolute "><BrasilMap/></div>
 
-      <div className="px-6 md:px-16 flex justify-center h-screen flex-col z-[999999] w-fit">
+      <div className="px-6 md:px-16 flex justify-center h-screen flex-col  w-fit">
         <div className="h-[350px] absolute z-[-9] ml-16 "><Circle/></div>
-      <h1 className="text-5xl mb-4 font-medium max-w-[750px] "><strong className="bg-blue-400 text-white font-normal">Escolha um programa</strong> e veja o que a plataforma filtra para você.</h1>
-          <p className="max-w-[620px]  text-lg text-gray-400">Arraste ou clique em um dos pontos no gráfico para selecionar o programa de pós-graduação. Você também pode escolher pela lista abaixo </p>
+        <h1 className="z-[999999] text-5xl mb-4 font-medium max-w-[750px] ">
+        <strong className="bg-blue-400 text-white font-normal">
+          {t('header.chooseProgram')}
+        </strong>{" "}
+        {t('header.seePlatformFilter')}
+      </h1>
+          <p className=" z-[999999] max-w-[620px]  text-lg text-gray-400">{t('header.filterPrompt')} </p>
 
           <div className="max-w-[700px] flex gap-3 items-center mt-6 z-[999999]">
-            <DropdownMultiSelect options={estadosBrasileiros} selectedOptions={selectedOptions} setSelectedOptions={setSelectedOptions} />
-          <div className="flex  items-center  justify-center h-10 border-gray-300 border-[1px] rounded-lg bg-white hover:border-blue-400">
+         
+          <div className="w-full">
+          <div className="flex gap-3 w-full">
+          <div className="flex  items-center w-full  justify-center h-10 border-gray-300 border-[1px] rounded-lg bg-white hover:border-blue-400">
                         <MagnifyingGlass size={20} className={`text-gray-400 min-w-[52px] `} />
                         <input
                           type="text"
                           value={filterValue}
                           onChange={e => setFilterValue(e.target.value)}
-                          placeholder="Nome da instituição"
+                          placeholder={t('input.type1')}
                           className="w-full outline-none text-sm"
                         />
                       </div>
 
-                      <Link to={"/result"} className="w-fit h-10 whitespace-nowrap flex items-center gap-4 bg-blue-400 text-white rounded-full px-6 py-2 justify-center hover:bg-blue-500 text-base font-medium transition">
-                        <ArrowRight size={16} className="text-white" /> Avançar
+                      <Link onClick={() => handleFilterChange(filterValue)} to={"/result"} className="w-fit h-10 whitespace-nowrap flex items-center gap-4 bg-blue-400 text-white rounded-full px-6 py-2 justify-center hover:bg-blue-500 text-base font-medium transition">
+                        <ArrowRight size={16} className="text-white" /> {t('buttons.avancar')}
                     </Link>
+          </div>
+
+          {filterValue.length <= 2 || filterValue == valueInstPesquisa ? (
+            <div></div>
+          ) : (
+            <div className="rounded-md bg-white absolute mt-3 p-4 gap-4 flex flex-col max-h-[250px] overflow-y-auto">
+          {filteredResults.map(props => {
+        
+              return (
+                <li
+                  key={props.graduate_program_id}
+                  className=" checkboxLabel group transition-all list-none inline-flex group w-full"
+                  onMouseDown={(e) => e.preventDefault()}
+                >
+                  <label  onClick={() => handleClickPesquisa(props.instituicao, props.graduate_program_id)}  className={`justify-between w-full p-4 flex-col cursor-pointer border-[1px] bg-white bg-opacity-70 backdrop-blur-sm border-gray-300 flex text-gray-400 rounded-md text-xs font-bold hover:border-blue-400 `}>
+                    <div className="flex justify-between items-center gap-3">
+
+                    
+                    <div className="flex items-center gap-3">
+                    <div><img src={`${props.url_image}`} alt="" className="h-12 border-none w-auto"/></div>
+                      <div>
+                      <span className=" whitespace-normal text-base text-gray-400 mb-2 font-bold">{props.name}</span>
+                      <p className="font-medium flex gap-1 items-center"> {props.instituicao}</p>
+                      </div>
+                    </div>
+
+                    <div className="flex justify-between items-center">
+                    <div className="border-[1px] border-gray-300 py-2 flex px-4 text-gray-400 rounded-md text-xs font-medium w-fit bg-white gap-1 items-center"><MapPin size={12} className="" /> {props.city} | {props.state}</div>
+                  
+                    </div>
+                    </div>
+
+                    
+
+
+                    <input
+                      type="checkbox"
+                      name={props.name}
+                      className="absolute hidden group"
+                      onClick={() => handleClick(props.graduate_program_id)}
+                      id={props.name}
+
+                    />
+                  </label>
+                </li>
+              )
+                    
+            })}
+          </div>
+          )}
+          </div>
           </div>
 
           
@@ -301,7 +260,7 @@ export function MapProfnit() {
                                       
                                   </div>
 
-      <div className="h-screen fixed top-0 right-0 pr-16 items-center justify-center flex">
+      <div className="fixed  right-0 pr-16 items-center justify-center flex">
       <div className="flex flex-col gap-3 max-h-[470px] overflow-y-auto">
         {graduatePrograms.map(props => {
          if (props.state === estadoSelecionado && idGraduateProgram == "0") {

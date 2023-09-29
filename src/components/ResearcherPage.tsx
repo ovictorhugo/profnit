@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../contexts/context";
 import { File, ArrowUDownLeft, Book, Books, Buildings, CaretCircleLeft, CaretCircleRight, CaretDown, ChartBar, GraduationCap, IdentificationBadge, LinkSimple, MagnifyingGlass, MapPin, PuzzlePiece, Quotes, Rows, SquaresFour, Stamp, Student, X, Code, StripeLogo, Files, FileArrowDown } from "phosphor-react";
 
-import background from '../assets/background.png';
+import background from '../assets/bg_profnit.png';
 import { Publicacao } from "./Publicacao";
 import Carregando from "./Carregando";
 
@@ -17,7 +17,6 @@ import { Marca } from "./Marca";
 import { Software } from "./Software";
 import { Orientacoes } from "./Orientacoes";
 import { Report } from "./Report";
-
 
 type Livros = {
   id: string,
@@ -357,6 +356,7 @@ export function ResearcherPage(props: Props) {
 
   const urlLivros = `${urlGeral}book_production_researcher?researcher_id=${props.id}&year=1000`;
   const [livros, setLivros] = useState<Livros[]>([]);
+  const quantidadeDeLivros = livros.length;
 
 
   useEffect(() => {
@@ -391,6 +391,7 @@ export function ResearcherPage(props: Props) {
 
   const urlCapLivros = `${urlGeral}book_chapter_production_researcher?researcher_id=${props.id}&year=1000`;
   const [capLivros, setCapLivros] = useState<Livros[]>([]);
+  const quantidadeCapDeLivros = capLivros.length;
 
 
   useEffect(() => {
@@ -425,6 +426,7 @@ export function ResearcherPage(props: Props) {
 
   const urlSoftware = `${urlGeral}/software_production_researcher?researcher_id=${props.id}&year=1000`;
   const [software, setSoftware] = useState<Livros[]>([]);
+  const quantidadeSoftware = software.length;
 
 
   useEffect(() => {
@@ -459,6 +461,7 @@ export function ResearcherPage(props: Props) {
 
   const urlMarca = `${urlGeral}brand_production_researcher?researcher_id=${props.id}&year=1000`;
   const [marca, setMarca] = useState<Livros[]>([]);
+  const quantidadeMarcas = marca.length;
 
 
   useEffect(() => {
@@ -493,7 +496,7 @@ export function ResearcherPage(props: Props) {
 
   const urlOrientacoes = `${urlGeral}guidance_researcher?researcher_id=${props.id}&year=1000`;
   const [orientacoes, setOrientacoes] = useState<Orientacoes[]>([]);
-
+  const quantidadeOrientacoes = orientacoes.length;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -822,7 +825,7 @@ export function ResearcherPage(props: Props) {
   const [patente, setPatente] = useState<Patente[]>([]);
 
   const urlPatente = `${urlGeral}patent_production_researcher?researcher_id=${props.id}&year=1000`;
-
+  const quantidadePatente = patente.length;
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
@@ -895,6 +898,201 @@ export function ResearcherPage(props: Props) {
     }, [urlRelatorio]);
 
 
+
+    //GRÁFICO PRODUÇÃO TÉCNICA
+
+    const colorsprd = ['#173DFF', '#8AB4F8', '#174EA6'];
+      const optionsproduc = {
+        chart: {
+          type: 'column',
+          backgroundColor: 'transparent',
+          fontFamily: 'Ubuntu, sans-serif',
+          height: '280px',
+          display: 'flex',
+          position: 'relative',
+        },
+        title: {
+          text: '',
+        },
+        credits: {
+          enabled: false,
+        },
+        xAxis: {
+          categories: ['Software', 'Patente', 'Marcas'],
+          title: {
+            text: '',
+            fontFamily: 'Ubuntu, sans-serif',
+          },
+        },
+        yAxis: {
+          min: 0,
+          title: {
+            text: 'Quantidade',
+          },
+        },
+        series: [
+          {
+            name: 'Quantidade',
+            data: [
+              {
+                y: quantidadeSoftware,
+                color: colorsprd[0], // Cor para a coluna de Software
+              },
+              {
+                y: quantidadePatente,
+                color: colorsprd[1], // Cor para a coluna de Patente
+              },
+              {
+                y: quantidadeMarcas,
+                color: colorsprd[2], // Cor para a coluna de Marcas
+              },
+            ],
+          },
+        ],
+        plotOptions: {
+          column: {
+            dataLabels: {
+              enabled: true,
+              inside: true,
+              style: {
+                color: 'white',
+                fontSize: '18px',
+                textOutline: '0px contrast',
+                fontFamily: 'Ubuntu, sans-serif',
+              },
+            },
+          },
+        },
+      };
+
+      //gráfico livros
+
+  
+      const optionslivros= {
+        chart: {
+          type: 'column',
+          backgroundColor: 'transparent',
+          fontFamily: 'Ubuntu, sans-serif',
+          height: '280px',
+          display: 'flex',
+          position: 'relative',
+        },
+        title: {
+          text: '',
+        },
+        credits: {
+          enabled: false,
+        },
+        xAxis: {
+          categories: ['Livros', 'Capítulos de livros'],
+          title: {
+            text: 'Tipo',
+            fontFamily: 'Ubuntu, sans-serif',
+          },
+        },
+        yAxis: {
+          min: 0,
+          title: {
+            text: 'Quantidade',
+          },
+        },
+        series: [
+          {
+            name: 'Quantidade',
+            data: [quantidadeDeLivros, quantidadeCapDeLivros],
+          },
+        ],
+        plotOptions: {
+          column: {
+            dataLabels: {
+              enabled: true,
+              inside: true,
+              style: {
+                color: 'white',
+                fontSize: '18px',
+                textOutline: '0px contrast',
+                fontFamily: 'Ubuntu, sans-serif',
+              },
+            },
+          },
+        },
+      };
+
+      //gráfico orientações
+
+      const colorsorientacoes = ['#238536', '#FFCF00'];
+
+      const orientacaoProgramCount: Record<string, number> = {};
+
+      orientacoes.forEach(program => {
+        const state = program.status;
+        if (orientacaoProgramCount[state]) {
+          orientacaoProgramCount[state] += 1;
+        } else {
+          orientacaoProgramCount[state] = 1;
+        }
+      });
+
+      const totalOrientacoes = Object.entries(orientacaoProgramCount).map(([status, count], index) => ({
+        status,
+        count,
+        color: status === 'Em andamento' ? '#FFCF00' : status === 'Concluída' ? '#238536' :colorsorientacoes[index], // Destaca "Em andamento" com vermelho
+      }));
+    
+      const optionsOrient = {
+        chart: {
+          type: 'column',
+          backgroundColor: 'transparent',
+          fontFamily: 'Ubuntu, sans-serif',
+          height: '280px',
+          display: 'flex',
+          position: 'relative',
+        },
+        title: {
+          text: '',
+        },
+        credits: {
+          enabled: false,
+        },
+        xAxis: {
+          categories: totalOrientacoes.map((item) => item.status),
+          title: {
+            text: 'Status',
+            fontFamily: 'Ubuntu, sans-serif',
+          },
+        },
+        yAxis: {
+          min: 0,
+          title: {
+            text: 'Quantidade',
+          },
+        },
+        series: [
+          {
+            name: 'Orientações',
+            data: totalOrientacoes.map((item) => ({
+              y: item.count,
+              color: item.color, // Usa a cor associada à coluna
+            })),
+          },
+        ],
+        plotOptions: {
+          column: {
+            dataLabels: {
+              enabled: true,
+              inside: true,
+              style: {
+                color: 'white',
+                fontSize: '18px',
+                textOutline: '0px contrast',
+                fontFamily: 'Ubuntu, sans-serif',
+              },
+            },
+          },
+        },
+      };
+      
+
   return (
     <div>
       {researcher.map(props => {
@@ -908,10 +1106,10 @@ export function ResearcherPage(props: Props) {
         const isOutdated = monthDifference > 3;
 
         return (
-          <div className={`absolute z-[-1] bg-cover bg-top bg-no-repeat backdrop-blur-md backdrop-brightness-150 h-[280px] rounded-sm w-full flex bg-blue-100`} >
-            <div className={` bg-opacity-20 absolute backdrop-blur-sm w-full h-full`}>
+          <div className={` absolute z-[-1] bg-cover bg-center bg-no-repeat backdrop-blur-md backdrop-brightness-150 h-[280px] rounded-sm w-full flex bg-blue-100`} style={{ backgroundImage: `url(${background})` }}>
+            <div className={` bg-opacity-40 absolute backdrop-blur-sm w-full h-full`}>
               <div className="relative flex justify-end right-0 ml-auto">
-                <div className={`border-[1px] ml-auto border-gray-300 w-fit py-2 px-4 text-gray-400 rounded-full text-xs font-bold  flex gap-1 items-center absolute top-[220px] right-16 ${isOutdated ? ('bg-red-400 text-white border-none') : ('')}`}>Data de atualização do Lattes: {props.lattes_update.toString()}</div>
+                <div className={`border-[1px] ml-auto border-gray-300 w-fit py-2 px-4 text-gray-400 rounded-full text-xs font-bold  flex gap-1 items-center absolute top-[220px] right-16 ${isOutdated ? ('bg-red-400 text-white border-none') : ('bg-white')}`}>Data de atualização do Lattes: {props.lattes_update.toString()}</div>
               </div>
             </div>
           </div>
@@ -1306,6 +1504,15 @@ export function ResearcherPage(props: Props) {
               </TabPanel>
 
               <TabPanel>
+              {quantidadeDeLivros !== 0 || quantidadeCapDeLivros !== 0 ? (
+              <div className="w-full mb-6 border-[1px] border-gray-300 rounded-md p-6">
+                <div className="text-center font-medium text-xl text-gray-500 mb-6">Quantidade de livros e capítulos</div>
+                <HighchartsReact highcharts={Highcharts} options={optionslivros} />
+              </div>
+            ) : (
+              <div></div>
+            )}
+
                 <div className="flex gap-4 w-full pb-8">
                   <Book size={24} className="text-gray-400" />
                   <p className="text-gray-400">Livros</p>
@@ -1367,6 +1574,16 @@ export function ResearcherPage(props: Props) {
 
 
               <TabPanel className={`w-full`}>
+              {quantidadeMarcas !== 0 || quantidadePatente !== 0 || quantidadeSoftware !== 0 ? (
+              <div className="w-full mb-6 border-[1px] border-gray-300 rounded-md p-6">
+                <div className="text-center font-medium text-xl text-gray-500 mb-6">Quantidade de produções técnicas</div>
+                <HighchartsReact highcharts={Highcharts} options={optionsproduc} />
+              </div>
+            ) : (
+              <div></div>
+            )}
+
+
                 <div className="flex gap-4 w-full pb-8">
                   <Books size={24} className="text-gray-400" />
                   <p className="text-gray-400">Patentes</p>
@@ -1498,6 +1715,15 @@ export function ResearcherPage(props: Props) {
               </TabPanel>
 
               <TabPanel>
+
+              {quantidadeOrientacoes !== 0 ? (
+              <div className="w-full mb-6 border-[1px] border-gray-300 rounded-md p-6">
+                <div className="text-center font-medium text-xl text-gray-500 mb-6">Contagem de Orientações por Status</div>
+                <HighchartsReact highcharts={Highcharts} options={optionsOrient} />
+              </div>
+            ) : (
+              <div></div>
+            )}
                 <div className="flex gap-4 w-full pb-8">
                   <Books size={24} className="text-gray-400" />
                   <p className="text-gray-400">Orientações</p>

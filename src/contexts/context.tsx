@@ -35,8 +35,8 @@ interface UserContextType {
   totalInstituicoes: string,
   setTotalInstituicoes: React.Dispatch<React.SetStateAction<string>>;
 
-  pesquisadoresSelecionadosGroup: string,
-  setPesquisadoresSelecionadosGroups: React.Dispatch<React.SetStateAction<string>>;
+  pesquisadoresSelecionadosGroupBarema: string,
+  setPesquisadoresSelecionadosGroupBarema: React.Dispatch<React.SetStateAction<string>>;
 
   user: User,
   setUser: React.Dispatch<React.SetStateAction<User>>;
@@ -92,8 +92,8 @@ totalPesquisadores: "",
 setTotalPesquisadores: () => {},
 totalInstituicoes: "", 
 setTotalInstituicoes: () => {},
-pesquisadoresSelecionadosGroup: "",
-setPesquisadoresSelecionadosGroups: () => {},
+pesquisadoresSelecionadosGroupBarema: "",
+setPesquisadoresSelecionadosGroupBarema: () => {},
 user: {} as User,
 setUser: () => {},
 isOn: false,

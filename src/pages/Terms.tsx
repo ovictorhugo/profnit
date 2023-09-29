@@ -6,7 +6,7 @@ export function Terms() {
     return  (
         <div>
             <ContentTerms/>
-            <Footer/>
+           
         </div>
     )
 }
