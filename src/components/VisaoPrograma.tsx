@@ -197,6 +197,8 @@ console.log(urlVisaoPrograma)
   // Calcula o índice de produção artigos
   const indiceProducaoArtigos = (pontuacaoTotal / numeroTotalDocentes/5).toFixed(2);
 
+
+
     const percentage = 66;
     return (
   
@@ -287,7 +289,7 @@ console.log(urlVisaoPrograma)
                 </div>
 
                 <div className="border p-12 rounded-2xl border-gray-300 w-full h-full">
-                <div className=" font-medium text-2xl text-right mb-2 w-full">Índice de produção de artigos</div>
+                <div className=" font-medium text-2xl text-right mb-2 w-full">Índice de produção técnica</div>
                 </div>
             </div>
           </div>

@@ -6,6 +6,17 @@ body {
  background-color: #Fff;
 }
 
+input[type=number]::-webkit-inner-spin-button { 
+  -webkit-appearance: none;
+  
+}
+input[type=number] { 
+ -moz-appearance: textfield;
+ appearance: textfield;
+
+}
+
+
 .element::-webkit-scrollbar {
   height: 10px;               /* width of the entire scrollbar */
 

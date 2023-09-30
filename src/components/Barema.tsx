@@ -1,12 +1,15 @@
 import { Link } from "react-router-dom";
 import LanguageSwitcher from "./LanguageSwitcher";
-import { BookOpen, ChartLine, DownloadSimple, ListDashes, MagnifyingGlass, Plus, Textbox, Trash, X } from "phosphor-react";
+import { BookOpen, CaretDown, CaretUp, ChartLine, Divide, DownloadSimple, ListDashes, MagnifyingGlass, Minus, Plus, Textbox, Trash, X } from "phosphor-react";
 
 import cimatec from '../assets/logo_profnit.png';
 import { LogoWhite } from "./LogoWhite";
 
 import { UserContext } from '../contexts/context'
 import { useEffect, useState, useContext } from "react";
+import { SvgBarema } from "./SvgBarema";
+
+import woman from '../assets/woman_ilus.png';
 
 type Research = {
     among: number,
@@ -235,6 +238,45 @@ export function Barema() {
     }
   };
 
+// logica dee avaliacao
+  const [ano, setAno] = useState()
+  const anoAtual = new Date().getFullYear();
+  const anoFiltro = anoAtual - ano;
+
+  const [dados, setDados] = useState([
+    { critério: 'Pós-Doutorado', pontos: 0, quantidade: 1 },
+    { critério: 'Doutorado', pontos: 0, quantidade: 1 },
+    { critério: 'Mestrado', pontos: 0, quantidade: 1 },
+  ]);
+
+  
+
+  const handleInputChange = (index:string, field:string, value: string) => {
+    const novosDados = [...dados];
+    novosDados[index][field] = value;
+    setDados(novosDados);
+  };
+
+  const [dadosProducao, setDadosProducao] = useState([
+    { critério: 'Artigo em periódicos indexados', pontos: 0, quantidade: 1 },
+    { critério: 'Livro', pontos: 0, quantidade: 1 },
+    { critério: 'Capítulo de livro', pontos: 0, quantidade: 1 },
+    { critério: 'Trabalhos em eventos científicos', pontos: 0, quantidade: 1 },
+    { critério: 'Texto em jornal ou revista', pontos: 0, quantidade: 1 },
+    { critério: 'Patentes e registros', pontos: 0, quantidade: 1 },
+    { critério: 'Produção artística/cultural', pontos: 0, quantidade: 1 },
+  ]);
+
+  const handleInputChangeProducao = (index:string, field:string, value: string) => {
+    const novosDados = [...dadosProducao];
+    novosDados[index][field] = value;
+    setDadosProducao(novosDados);
+  };
+
+
+  //visibilidade
+
+  const [isCloseHidden, setIsCloseHidden] = useState(false); //Produção geral
 
   
 
@@ -243,11 +285,13 @@ export function Barema() {
         <div className="md:px-16 px-6 min-h-screen">
             <div className="absolute z-[-9] w-full top-0 left-0">
                 <div className="w-full h-[70vh] bg-blue-400">
-                
+                  
                 </div>
             </div>
 
-            <header className={` z-[9999999] w-full mb-4 h-20 justify-between items-center flex `}>
+           
+
+            <header className={` z-[9999999999] w-full mb-4 h-20 justify-between items-center flex `}>
                 <div className=" w-full flex items-center h-12 ">
                     <div className="flex gap-6 items-center h-full justify-center ">
                     <Link to={"/"} className="h-[30px]  "><LogoWhite /></Link>
@@ -264,7 +308,7 @@ export function Barema() {
                     </div>
                 </div>
 
-                <div className="flex gap-4">
+                <div className="flex gap-4 z-[9999999999]">
                     <LanguageSwitcher/>
                     </div>
                 </header>
@@ -340,10 +384,193 @@ export function Barema() {
             <div >
             
             </div>
+
+            <div className="top-0 right-0 absolute h-[500px] ml-auto "><SvgBarema/></div>
            </div>
 
-           <div className="w-full min-h-[300px] p-8 bg-white border border-gray-300 rounded-2xl">d</div>
+           <div className=" z-[-999999] flex flex-col gap-4 w-full min-h-[300px] p-12 mb-12 bg-white border border-gray-300 rounded-2xl">
+           <div className="flex  justify-between">
+            <div>
+              
+            <h1 className="z-[999999] text-2xl mb-2 font-normal max-w-[750px] ">
+            <strong className="bg-blue-400 text-white font-normal">
+            Titulação
+            </strong>{" "}
+            ou estágio de estudos e pesquisa
+            </h1>
+            <p className="text-gray-400 mb-8">Será considerada, APENAS, pontuação máxima</p>
+            </div>
 
+            <div className=" z-[999] cursor-pointer rounded-full hover:bg-gray-100 h-[38px] w-[38px] transition-all flex items-center justify-center">
+              <Minus size={24} className={" transition-all text-gray-400"} />
+            </div>
+           </div>
+
+            
+                <div>
+                <div className="w-full grid grid-cols-5 mb-4">
+                  <p className="text-gray-400">Critérios</p>
+                  <p className="text-gray-400">Pontos</p>
+                  <p className="text-gray-400">Quantidade máxima</p>
+                  <p className="text-gray-400">Total</p>
+                  
+
+                  </div>
+
+                  <div className="w-full flex gap-4 flex-col">
+                  {dados.map((item, index) => (
+            <div key={index} className="grid grid-cols-5 gap-4 border-t pt-4 border-gray-300">
+              <div className="border-[1px] bg-white border-gray-300 flex h-10 items-center px-4 text-gray-400 rounded-md text-xs font-bold w-fit">{item.critério}</div>
+              <div>
+                <input
+                  type="number"
+                  min="0" max="100"
+                  className="border-[1px] bg-white border-gray-300 flex h-10 items-center px-4 text-gray-400 rounded-md text-xs font-bold w-fit outline-none"
+                  value={item.pontos}
+                  onChange={(e) => handleInputChange(index, 'pontos', e.target.value)}
+                />
+              </div>
+              <div>
+                <input
+                  type="number"
+                  min="0" max="100"
+                  className="border-[1px] bg-white border-gray-300 flex h-10 items-center px-4 text-gray-400 rounded-md text-xs font-bold w-fit outline-none"
+                  value={item.quantidade}
+                  onChange={(e) => handleInputChange(index, 'quantidade', e.target.value)}
+                />
+              </div>
+              
+
+              <div className="flex gap-4">
+              {researcher.map(props => {
+                    if(props.graduation == item.critério) {
+                      return(
+                        <div key={props.id} className="group transition-all pr-4 border-[1px] bg-white border-gray-300 flex h-10 items-center text-gray-400 rounded-md text-xs font-bold w-fit gap-3">
+                            <div  className=" rounded-l-md w-[40px] h-[40px] bg-cover bg-center bg-no-repeat  " style={{ backgroundImage: `url(http://servicosweb.cnpq.br/wspessoa/servletrecuperafoto?tipo=1&id=${props.lattes_10_id}) ` }}></div>
+                            {item.pontos * item.quantidade} 
+                        </div>
+                    )
+                    }
+                })}
+              </div>
+
+            
+
+            </div>
+          ))}
+                  
+                  </div>
+                </div>
+                </div>
+
+
+                <div className=" z-[-999999] flex flex-col gap-4 w-full pb-0 p-12 mb-12 bg-white border border-gray-300 rounded-2xl">
+           <div className="flex  justify-between">
+            <div>
+              
+            <h1 className="z-[999999] text-2xl mb-2 font-normal max-w-[750px] ">
+            <strong className="bg-blue-400 text-white font-normal">
+            Produção
+            </strong>{" "}
+            geral
+            </h1>
+            
+            {isCloseHidden == false ? (
+              <p className="text-gray-400 mb-8 flex items-center gap-2">
+                Será considerada APENAS a pontuação dos últimos
+              <input
+                  type="number"
+                  min="0" max="100"
+                  className="border-[1px] w-12 bg-white border-gray-300 flex h-10 items-center px-4 text-gray-400 rounded-md text-xs font-bold  outline-none"
+                  value={ano}
+                  
+                />
+                anos
+                </p>
+            ):(<div className="mb-12"></div>)}
+              
+              
+            </div>
+
+            <div  onClick={() => setIsCloseHidden(!isCloseHidden)} className=" button-to-toggle z-[999] text-gray-400 cursor-pointer rounded-full hover:bg-gray-100 h-[38px] w-[38px] transition-all flex items-center justify-center">
+              {isCloseHidden == false ? (<CaretUp size={16} className="" />):(<CaretDown size={16} className="" />)}
+            </div>
+           </div>
+
+            
+                <div className={isCloseHidden ? 'hidden' : ''}>
+                <div className="w-full grid grid-cols-5 mb-4">
+                  <p className="text-gray-400">Critérios</p>
+                  <p className="text-gray-400">Pontos</p>
+                  <p className="text-gray-400">Quantidade máxima</p>
+                  <p className="text-gray-400">Total</p>
+                  
+
+                  </div>
+
+                  <div className="w-full flex gap-4 flex-col pb-12">
+                  {dadosProducao.map((item, index) => (
+            <div key={index} className="grid grid-cols-5 gap-4 border-t pt-4 border-gray-300">
+              <div className="border-[1px] bg-white border-gray-300 flex h-10 items-center px-4 text-gray-400 rounded-md text-xs font-bold w-fit">{item.critério}</div>
+              <div>
+                <input
+                  type="number"
+                  min="0" max="100"
+                  className="border-[1px] bg-white border-gray-300 flex h-10 items-center px-4 text-gray-400 rounded-md text-xs font-bold w-fit outline-none"
+                  value={item.pontos}
+                  onChange={(e) => handleInputChangeProducao(index, 'pontos', e.target.value)}
+                />
+              </div>
+              <div>
+                <input
+                  type="number"
+                  min="0" max="100"
+                  className="border-[1px] bg-white border-gray-300 flex h-10 items-center px-4 text-gray-400 rounded-md text-xs font-bold w-fit outline-none"
+                  value={item.quantidade}
+                  onChange={(e) => handleInputChangeProducao(index, 'quantidade', e.target.value)}
+                />
+              </div>
+              
+
+              <div className="flex gap-4">
+              {researcher.map(props => {
+                    if(item.critério == "Artigo em periódicos indexados") {
+                      return(
+                        <div key={props.id} className="group transition-all pr-4 border-[1px] bg-white border-gray-300 flex h-10 items-center text-gray-400 rounded-md text-xs font-bold w-fit gap-3">
+                            <div  className=" rounded-l-md w-[40px] h-[40px] bg-cover bg-center bg-no-repeat  " style={{ backgroundImage: `url(http://servicosweb.cnpq.br/wspessoa/servletrecuperafoto?tipo=1&id=${props.lattes_10_id}) ` }}></div>
+                            {(item.pontos * props.articles) >= (item.quantidade * item.pontos) ? (item.quantidade * item.pontos): (item.pontos * props.articles)} 
+                        </div>
+                      )
+                    }
+                    if(item.critério == "Livro") {
+                      return(
+                        <div key={props.id} className="group transition-all pr-4 border-[1px] bg-white border-gray-300 flex h-10 items-center text-gray-400 rounded-md text-xs font-bold w-fit gap-3">
+                            <div  className=" rounded-l-md w-[40px] h-[40px] bg-cover bg-center bg-no-repeat  " style={{ backgroundImage: `url(http://servicosweb.cnpq.br/wspessoa/servletrecuperafoto?tipo=1&id=${props.lattes_10_id}) ` }}></div>
+                            {(item.pontos * props.book) >= (item.quantidade * item.pontos) ? (item.quantidade * item.pontos): (item.pontos  * props.book)} 
+                        </div>
+                      )
+                    }
+
+                    if(item.critério == "Capítulo de livro") {
+                      return(
+                        <div key={props.id} className="group transition-all pr-4 border-[1px] bg-white border-gray-300 flex h-10 items-center text-gray-400 rounded-md text-xs font-bold w-fit gap-3">
+                            <div  className=" rounded-l-md w-[40px] h-[40px] bg-cover bg-center bg-no-repeat  " style={{ backgroundImage: `url(http://servicosweb.cnpq.br/wspessoa/servletrecuperafoto?tipo=1&id=${props.lattes_10_id}) ` }}></div>
+                            {(item.pontos * props.book_chapters) >= (item.quantidade * item.pontos) ? (item.quantidade * item.pontos): (item.pontos  * props.book_chapters)} 
+                        </div>
+                      )
+                    }
+                })}
+              </div>
+
+            
+
+            </div>
+          ))}
+                  
+                  </div>
+                </div>
+                </div>
+           
            
            </div>
         </div>
