@@ -533,33 +533,38 @@ export function Barema() {
               
 
               <div className="flex gap-4">
-              {researcher.map(props => {
-                    if(item.critério == "Artigo em periódicos indexados") {
-                      return(
-                        <div key={props.id} className="group transition-all pr-4 border-[1px] bg-white border-gray-300 flex h-10 items-center text-gray-400 rounded-md text-xs font-bold w-fit gap-3">
-                            <div  className=" rounded-l-md w-[40px] h-[40px] bg-cover bg-center bg-no-repeat  " style={{ backgroundImage: `url(http://servicosweb.cnpq.br/wspessoa/servletrecuperafoto?tipo=1&id=${props.lattes_10_id}) ` }}></div>
-                            {(item.pontos * props.articles) >= (item.quantidade * item.pontos) ? (item.quantidade * item.pontos): (item.pontos * props.articles)} 
-                        </div>
-                      )
-                    }
-                    if(item.critério == "Livro") {
-                      return(
-                        <div key={props.id} className="group transition-all pr-4 border-[1px] bg-white border-gray-300 flex h-10 items-center text-gray-400 rounded-md text-xs font-bold w-fit gap-3">
-                            <div  className=" rounded-l-md w-[40px] h-[40px] bg-cover bg-center bg-no-repeat  " style={{ backgroundImage: `url(http://servicosweb.cnpq.br/wspessoa/servletrecuperafoto?tipo=1&id=${props.lattes_10_id}) ` }}></div>
-                            {(item.pontos * props.book) >= (item.quantidade * item.pontos) ? (item.quantidade * item.pontos): (item.pontos  * props.book)} 
-                        </div>
-                      )
-                    }
+              {researcher
+                .filter(props => item.critério === "Artigo em periódicos indexados")
+                .sort((a, b) => (item.pontos * b.articles) - (item.pontos * a.articles))
+                .map(props => (
+                  <div key={props.id} className="group transition-all pr-4 border-[1px] bg-white border-gray-300 flex h-10 items-center text-gray-400 rounded-md text-xs font-bold w-fit gap-3">
+                    <div className="rounded-l-md w-[40px] h-[40px] bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(http://servicosweb.cnpq.br/wspessoa/servletrecuperafoto?tipo=1&id=${props.lattes_10_id}) ` }}></div>
+                    {(item.pontos * props.articles) >= (item.quantidade * item.pontos) ? (item.quantidade * item.pontos) : (item.pontos * props.articles)} 
+                  </div>
+                ))
+              }
 
-                    if(item.critério == "Capítulo de livro") {
-                      return(
-                        <div key={props.id} className="group transition-all pr-4 border-[1px] bg-white border-gray-300 flex h-10 items-center text-gray-400 rounded-md text-xs font-bold w-fit gap-3">
-                            <div  className=" rounded-l-md w-[40px] h-[40px] bg-cover bg-center bg-no-repeat  " style={{ backgroundImage: `url(http://servicosweb.cnpq.br/wspessoa/servletrecuperafoto?tipo=1&id=${props.lattes_10_id}) ` }}></div>
-                            {(item.pontos * props.book_chapters) >= (item.quantidade * item.pontos) ? (item.quantidade * item.pontos): (item.pontos  * props.book_chapters)} 
-                        </div>
-                      )
-                    }
-                })}
+              {researcher
+                .filter(props => item.critério === "Livro")
+                .sort((a, b) => (item.pontos * b.book) - (item.pontos * a.book))
+                .map(props => (
+                  <div key={props.id} className="group transition-all pr-4 border-[1px] bg-white border-gray-300 flex h-10 items-center text-gray-400 rounded-md text-xs font-bold w-fit gap-3">
+                    <div className="rounded-l-md w-[40px] h-[40px] bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(http://servicosweb.cnpq.br/wspessoa/servletrecuperafoto?tipo=1&id=${props.lattes_10_id}) ` }}></div>
+                    {(item.pontos * props.book) >= (item.quantidade * item.pontos) ? (item.quantidade * item.pontos) : (item.pontos * props.book)} 
+                  </div>
+                ))
+              }
+
+              {researcher
+                .filter(props => item.critério === "Capítulo de livro")
+                .sort((a, b) => (item.pontos * b.book_chapters) - (item.pontos * a.book_chapters))
+                .map(props => (
+                  <div key={props.id} className="group transition-all pr-4 border-[1px] bg-white border-gray-300 flex h-10 items-center text-gray-400 rounded-md text-xs font-bold w-fit gap-3">
+                    <div className="rounded-l-md w-[40px] h-[40px] bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(http://servicosweb.cnpq.br/wspessoa/servletrecuperafoto?tipo=1&id=${props.lattes_10_id}) ` }}></div>
+                    {(item.pontos * props.book_chapters) >= (item.quantidade * item.pontos) ? (item.quantidade * item.pontos) : (item.pontos * props.book_chapters)} 
+                  </div>
+                ))
+              }
               </div>
 
             

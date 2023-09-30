@@ -32,12 +32,14 @@ export function VisaoPrograma() {
   const [VisaoPrograma, setVisaoPrograma] = useState<VisaoPrograma[]>([]); 
   const [Qualis, setQualis] = useState<Qualis[]>([]); 
 
-  let urlVisaoPrograma = `${urlGeral}/graduate_program_production?graduate_program_id=${idGraduateProgram}&year=2022`;
-  // Obtém o ano atual
+    // Obtém o ano atual
 const anoAtual = new Date().getFullYear();
 
 // Calcula o ano 5 anos atrás
-const ano5AnosAtras = anoAtual - 5;
+const ano5AnosAtras = anoAtual - 4;
+
+
+  let urlVisaoPrograma = `${urlGeral}/graduate_program_production?graduate_program_id=${idGraduateProgram}&year=${ano5AnosAtras}`;
 
 // Monta a URL com o ano 5 anos atrás
 const urlQualis = `${urlGeral}/qualis_researcher?graduate_program_id=${idGraduateProgram}&year=${ano5AnosAtras}&researcher_id=`;
@@ -211,6 +213,7 @@ console.log(urlVisaoPrograma)
         <h1 className="text-left max-w-[350px] min-w-[350px]  font-medium text-3xl ">
            Visão geral do programa de <strong className="bg-green-400 text-white font-medium">pós-graduação</strong>
         </h1>
+        <p className="text-sm text-gray-400 mt-2">Informações referentes a produção dos últimos 4 anos</p>
         </div>
 
         <div className="h-32 w-32 flex items-center">
@@ -278,7 +281,7 @@ console.log(urlVisaoPrograma)
 
     <div className="flex gap-6 h-[500px] w-full">
             <div className="flex flex-1 h-full bg-blue-400 rounded-2xl p-12 flex-col">
-            <div className="text-center font-medium text-2xl text-white mb-6 w-full">Artigos por qualis nos últimos 5 anos</div>
+            <div className="text-center font-medium text-2xl text-white mb-6 w-full">Artigos por qualis nos últimos 4 anos</div>
             <HighchartsReact highcharts={Highcharts} options={optionsqualis} />
             </div>
             <div className="w-[450px] flex flex-col gap-6">

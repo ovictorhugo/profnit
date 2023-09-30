@@ -126,6 +126,12 @@ export function MapProfnit() {
     props.instituicao.toUpperCase().includes(filterValue.toUpperCase())
   );
 
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleFilterChange()
+    }
+  };
+
 
    //
    const [isOpen, setIsOpen] = useState(false);
@@ -185,6 +191,7 @@ export function MapProfnit() {
                         <MagnifyingGlass size={20} className={`text-gray-400 min-w-[52px] `} />
                         <input
                           type="text"
+                          onKeyPress={handleKeyPress}
                           value={filterValue}
                           onChange={e => setFilterValue(e.target.value)}
                           placeholder={t('input.type1')}
