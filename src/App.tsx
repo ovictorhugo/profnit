@@ -119,9 +119,11 @@ export const App = () => {
             <Route path='/terms' element={<Terms/>}/>
             <Route path='/login' element={<Login/>}/>
             <Route path='/chat' element={<Chat/>}/>
+
+            <Route path='/export-sucupira' element={<Login/>}/>
            
 
-            <Route path='/profnit' element={<Profnit/>}/>
+         
 
             <Route
             path='/result'

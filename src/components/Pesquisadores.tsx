@@ -169,31 +169,27 @@ export function Pesquisadores() {
 
 
   const [itensSelecionados, setItensSelecionados] = useState<string[]>([]);
+  const { pesquisadoresSelecionadosGroupBarema, setPesquisadoresSelecionadosGroupBarema } = useContext(UserContext);
 
-  useEffect(() => {
-    const cookieItensSelecionados = Cookies.get("itensSelecionados");
-    if (cookieItensSelecionados) {
-      const parsedItensSelecionados = cookieItensSelecionados.split(";");
-      setItensSelecionados(parsedItensSelecionados);
+  const handleCheckboxChange = (user: { name: string }) => {
+    if (itensSelecionados.includes(user.name)) {
+      setItensSelecionados(prevSelecionados =>
+        prevSelecionados.filter(selectedItem => selectedItem !== user.name)
+      );
+    } else {
+      setItensSelecionados(prevSelecionados => [...prevSelecionados, user.name]);
     }
-  }, []);
-
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name } = event.target;
-    const isChecked = event.target.checked;
-
-    setItensSelecionados((prevSelecionados) => {
-      if (isChecked) {
-        return [...prevSelecionados, name];
-      } else {
-        return prevSelecionados.filter((item) => item !== name);
-      }
-    });
   };
 
-  
+  useEffect(() => {
+    setPesquisadoresSelecionadosGroupBarema(itensSelecionados.join(';'));
+  }, [itensSelecionados]);
 
-  const { pesquisadoresSelecionadosGroupBarema, setPesquisadoresSelecionadosGroupBarema } = useContext(UserContext);
+
+
+  
+console.log(pesquisadoresSelecionadosGroupBarema)
+ 
 
   
  
@@ -395,20 +391,23 @@ export function Pesquisadores() {
                 {currentResults.map((user, index) => (
                   <div key={user.id} className=" group justify-end flex w-full transition-all" >
 
-                    <label className={`z-[99] absolute m-6 ml-auto hidden group-hover:flex cursor-pointer float-right items-center gap-4 ${itensSelecionados.includes(user.name) ? 'bg-red-400 hover:bg-red-500' : 'bg-blue-400 hover:bg-blue-500'} text-white rounded-md h-[38px] w-[38px] justify-center  font-medium transition`}>
-                      {itensSelecionados.includes(user.name) ? (
-                        <X size={16} className="text-white" />
-                      ) : (
-                        <Plus size={16} className="text-white" />
-                      )}
-                      <input
-                        type="checkbox"
-                        className="absolute hidden"
-                        name={user.name}
-                        checked={itensSelecionados.includes(user.name)}
-                        onChange={handleCheckboxChange}
-                      />
-                    </label>
+<label
+          key={index}
+          className={`z-[99] absolute m-6 ml-auto hidden group-hover:flex cursor-pointer float-right items-center gap-4 ${pesquisadoresSelecionadosGroupBarema.includes(user.name) ? 'bg-red-400 hover:bg-red-500' : 'bg-blue-400 hover:bg-blue-500'} text-white rounded-md h-[38px] w-[38px] justify-center  font-medium transition`}
+        >
+          {pesquisadoresSelecionadosGroupBarema.includes(user.name) ? (
+            <X size={16} className="text-white" />
+          ) : (
+            <Plus size={16} className="text-white" />
+          )}
+          <input
+            type="checkbox"
+            className="absolute hidden"
+            name={user.name}
+            checked={itensSelecionados.includes(user.name)}
+            onChange={() => handleCheckboxChange(user)}
+          />
+        </label>
 
                     <div className="relative w-full">
                       <Pesquisador

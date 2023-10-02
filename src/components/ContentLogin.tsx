@@ -11,6 +11,8 @@ import { GoogleAuthProvider, signInWithPopup, User } from 'firebase/auth'
 import { auth } from "../lib/firebase";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { UserContext } from "../contexts/context";
+import { Circle } from "./Circle";
+import { Circle2 } from "./Circle2";
 
 
 
@@ -78,19 +80,40 @@ export function ContentLogin() {
   });
 
   return (
-    <div className="w-full h-screen bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${backgroundImage})` }}>
-      <div className="w-full h-screen justify-between px-6 md:px-16 flex bg-[#000000] bg-opacity-30 backdrop-blur-sm ">
-        <div className="flex items-center">
-          <Link to={"/"} className="h-12 ">
-            <Logo />
-          </Link>
+    <div className="w-full h-screen overflow-hidden " >
+      <div className="w-full h-screen justify-between flex ">
+      <div className="h-[350px] absolute z-[9] bottom-[-60px] ml-[300px] "><Circle/></div>
+      <div className="h-[350px] absolute z-[9] top-[-100px] left-[-100px] rotate-45 "><Circle2/></div>
+
+        <div className="w-[600px]   h-screen bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${backgroundImage})` }}>
+          <div className="w-full h-screen pb-16  justify-between flex-col px-6 md:px-16 flex bg-blue-400 bg-opacity-50 backdrop-blur-md ">
+            <div className="z-[999]">
+            <h1 className="text-4xl mb-4 mt-28 font-normal max-w-[400px] text-white ">
+
+            <strong className="bg-green-400 text-white font-normal">
+            Exportação
+            </strong>{" "}
+            Sucupira
+            </h1>
+
+            <p className="text-white text-md">Baixe o modelo de arquivo .csv disponibilizado no site e defina os critérios de avaliação, assim como sua pontuação e quantidade máxima. Você pode remover os critérios pré-existentes</p>
+            </div>
+            <div className="z-[999999]">
+            <p className="text-white text-md z-[999]">Baixe o modelo de arquivo .csv disponibilizado no site e defina os critérios de avaliação, assim como sua pontuação e quantidade máxima. Você pode remover os critérios pré-existentes</p>
+            </div>
+          </div>
         </div>
 
-        <div className="w-full md:w-[510px] flex items-center ">
-          <div className="w-full rounded-md bg-white px-14 py-10">
+        <div className=" flex items-center flex-1 ">
+          <div className="w-full rounded-md bg-white py-28 md:px-40 h-full">
             <header className="mb-8">
+            <div className="flex items-center">
+                <Link to={"/"} className="h-8 mb-4 ">
+                  <Logo />
+                </Link>
+              </div>
               <h4 className="text-4xl font-medium text-left mb-4">Fazer login</h4>
-              <div className="flex gap-2"><p className="text-md  text-gray-500">Ainda não tem uma conta?</p><Link to="" className="text-md  text-blue-400 hover:text-blue-500">Crie uma conta</Link></div>
+              <div className="flex gap-2"><p className="text-md  text-gray-500">Gestor, ainda não tem uma conta?</p><Link to="" className="text-md  text-blue-400 hover:text-blue-500">Crie uma conta</Link></div>
             </header>
 
             <form className="w-full mb-6">
@@ -112,7 +135,7 @@ export function ContentLogin() {
                 required
                 className="mb-4 border-[1px] border-gray-300 w-full h-12 rounded-md outline-none p-4 text-md hover:border-blue-400 focus:border-blue-400" />
 
-              <button type="submit" onClick={handleLogin} className="whitespace-nowrap flex items-center gap-4 bg-blue-400 text-white rounded-md px-4 py-2 justify-center hover:bg-blue-500  font-medium transition w-min ml-auto">
+              <button type="submit" onClick={handleLogin} className="whitespace-nowrap flex items-center gap-4 bg-blue-400 text-white rounded-md px-4 py-2 justify-center hover:bg-blue-500  font-medium transition w-full h-12 ml-auto">
                 <SignIn size={16} className="text-white" /> Continuar
               </button>
             </form>
@@ -124,8 +147,8 @@ export function ContentLogin() {
             </div>
 
             <div>
-              <button type="button" onClick={handleGoogleSignIn} className="w-full text-sm font-bold cursor-pointer h-12 p-4 text-gray-400 border-[1px] border-solid bg-white border-gray-300 rounded-lg justify-center items-center flex outline-none  hover:bg-blue-100 focus:border-blue-400 gap-3  transition focus:bg-blue-100">
-                <GoogleLogo size={16} className="text-gray-500" />Fazer login com o Google
+              <button type="button" onClick={handleGoogleSignIn} className="w-full hover:border-blue-400 hover:text-blue-400 text-sm font-bold cursor-pointer h-12 p-4 text-gray-400 border-[1px] border-solid bg-white border-gray-300 rounded-lg justify-center items-center flex outline-none  hover:bg-blue-100 focus:border-blue-400 gap-3  transition focus:bg-blue-100">
+                <GoogleLogo size={16} className="" />Fazer login com o Google
               </button>
             </div>
 

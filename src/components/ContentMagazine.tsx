@@ -2,7 +2,7 @@ import { UserContext } from "../contexts/context";
 
 import { useEffect, useState, useContext } from "react";
 import { Header } from "./Header";
-import { CalendarBlank, CaretCircleLeft, CaretCircleRight, File, Graph, Hash, LinkBreak, MagnifyingGlass, Quotes } from "phosphor-react";
+import { CalendarBlank, CaretCircleLeft, CaretCircleRight, CaretDown, File, Graph, Hash, LinkBreak, MagnifyingGlass, Quotes } from "phosphor-react";
 import Carregando from "./Carregando";
 import { MagazineSvg } from "./MagazineSvg";
 
@@ -87,7 +87,7 @@ const filteredResults = magazine.filter(prop =>
 
             <div className="overflow-hidden absolute   px-6 md:px-16 w-full">
                 <div className="h-screen py-20  flex items-center ">
-                <div className="bg-blue-400 rounded-2xl flex flex-col w-full h-full p-16 items-center justify-center">
+                <div className="bg-blue-400 bg-opacity-50 backdrop-blur-sm rounded-2xl flex flex-col w-full h-full p-16 items-center justify-center">
                 <div className="flex justify-center flex-col items-center mb-12">
                   <h1 className="text-white   font-light text-4xl mb-2">Pesquise <strong className="bg-green-400">o nome da revista ou ISSN</strong> para ver o Qualis e JCR</h1>
                 <p className="text-white ">Para ajudar a sua pesquisa, fornecemos uma lista extensa de revistas e suas classificações.</p>
@@ -106,9 +106,14 @@ const filteredResults = magazine.filter(prop =>
                         />
                       </div>
                 </div>
+
+                <div className="animate-bounce cursor-pointer absolute bottom-16 text-white rounded-full hover:bg-blue-400 h-[38px] w-[38px] transition-all flex items-center justify-center">
+                <CaretDown  size={24} className={" transition-all   "} />
+              </div>
+
                 </div>
 
-                <div className="w-full absolute -top-48 left-0 "><MagazineSvg/></div>
+                <div className="w-full absolute z-[-9] -top-48 left-0 "><MagazineSvg/></div>
             </div>
 
              <div className="pt-12">

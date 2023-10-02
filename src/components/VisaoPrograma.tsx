@@ -280,14 +280,14 @@ console.log(urlVisaoPrograma)
 
 
     <div className="flex gap-6 h-[500px] w-full">
-            <div className="flex flex-1 h-full bg-blue-400 rounded-2xl p-12 flex-col">
+            <div className="flex flex-1 h-full bg-blue-400  bg-opacity-50 backdrop-blur-sm rounded-2xl p-12 flex-col">
             <div className="text-center font-medium text-2xl text-white mb-6 w-full">Artigos por qualis nos últimos 4 anos</div>
             <HighchartsReact highcharts={Highcharts} options={optionsqualis} />
             </div>
             <div className="w-[450px] flex flex-col gap-6">
                 <div className="border rounded-2xl p-12 border-gray-300 w-full ">
                 <div className=" font-medium text-2xl text-right mb-2 w-full">Índice de produção de artigos</div>
-                <p className="text-sm text-gray-400 mb-6 text-right ">Índice de produção artigos (últimos 5 anos) = (1 x A1 + 0,875 x A2 + 0,75 x A3 + 0,625 x A4 + 0,5x B1 + 0,375 x B2 + 0,25 x B3 + 0,125 x B4) / (Número total de docentes permanentes)</p>
+                <p className="text-sm text-gray-400 mb-6 text-right ">Índice de produção artigos (últimos 4 anos) = (1 x A1 + 0,875 x A2 + 0,75 x A3 + 0,625 x A4 + 0,5x B1 + 0,375 x B2 + 0,25 x B3 + 0,125 x B4) / (Número total de docentes)</p>
                 <h3 className="text-6xl font-medium text-right">{indiceProducaoArtigos}</h3>
                 </div>
 

@@ -245,7 +245,7 @@ export function ContentTerms() {
       <div className="  h-screen ">
       
         <div className=" h-full  w-[600px] py-20 pl-16 fixed top-[0px] left-0">
-          <div className="  bg-blue-400   z-[999999] min-h-[340px]  h-full flex items-center rounded-2xl">
+          <div className="  bg-blue-400   bg-opacity-50 backdrop-blur-sm z-[999999] min-h-[340px]  h-full flex items-center rounded-2xl">
             <div className="flex z-[999999] flex-col w-full h-full px-10 justify-center">
               <div className=" z-[999999] flex flex-col w-full  sm:items-center transition py-12">
                 <h1 className="text-left text-white max-w-[700px] font-light text-4xl mb-2">Dicionário de <strong className="bg-green-400">palavras encontradas</strong> em termos, resumo e área de especialidade</h1>
@@ -286,10 +286,12 @@ export function ContentTerms() {
               </div>
               </div>
 
+              
+
            
             </div>
           </div>
-          <div className="h-screen absolute  top-0 -left-4 z-[0] "><TermsSvg/></div>
+          <div className="h-screen absolute  top-0 -left-4 z-[-9] "><TermsSvg/></div>
         </div>
       </div>
 

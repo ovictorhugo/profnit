@@ -156,9 +156,9 @@ export function Pesquisador(props: PesquisadorProps) {
         <ArrowSquareOut size={16} className="text-white" />
       </Link>
 
-      <div onClick={handleOpenPopUp} id="id_perfil" className={`cursor-pointer group bg-white  border-gray-300 border-[1px]  items-center p-2 rounded-lg hover:shadow-md transition w-full   ${isOn && valoresSelecionadosExport != '' ? "flex items-center justify-between" : "flex flex-col"}`}>
-        <div className={`bg-cover bg-top bg-no-repeat backdrop-blur-md backdrop-brightness-150 h-20 bg-gray-400 rounded-md  w-full ${isOn && valoresSelecionadosExport != '' ? "hidden" : "flex "}`} style={{ backgroundImage: `url(http://servicosweb.cnpq.br/wspessoa/servletrecuperafoto?tipo=1&id=${props.lattes_10_id}) ` }}>
-          <div className={`bg-[#000000] bg-opacity-30 absolute backdrop-blur-sm w-full h-full rounded-md`}></div>
+      <div onClick={handleOpenPopUp} id="id_perfil" className={`cursor-pointer group bg-white  border-gray-300 border-[1px]  items-center rounded-2xl hover:shadow-md transition w-full   ${isOn && valoresSelecionadosExport != '' ? "flex items-center justify-between" : "flex flex-col"}`}>
+        <div className={`bg-cover bg-top bg-no-repeat backdrop-blur-md backdrop-brightness-150 h-28 bg-gray-400 rounded-t-xl  w-full ${isOn && valoresSelecionadosExport != '' ? "hidden" : "flex "}`} style={{ backgroundImage: `url(http://servicosweb.cnpq.br/wspessoa/servletrecuperafoto?tipo=1&id=${props.lattes_10_id}) ` }}>
+          <div className={`bg-[#000000] bg-opacity-30 absolute backdrop-blur-sm w-full h-full rounded-t-xl`}></div>
 
         </div>
         <div className={`flex ${isOn && valoresSelecionadosExport != '' ? "" : "flex-col"}`}>
@@ -169,7 +169,7 @@ export function Pesquisador(props: PesquisadorProps) {
 
             </div>
 
-            <div className={`flex  flex-col   relative ${isOn && valoresSelecionadosExport != '' ? "top-0 ml-6" : "top-[-30px] items-center"}`}>
+            <div className={`flex  flex-col mx-6  relative ${isOn && valoresSelecionadosExport != '' ? "top-0 ml-6" : "top-[-30px] items-center"}`}>
               <h4 className={`text-lg font-medium  mb-1 ${isOn && valoresSelecionadosExport != '' ? "text-left" : " px-8 text-center"}`}>{props.name}</h4>
               <div className="flex items-center gap-2">
                 {props.image == "None" ? (
@@ -178,7 +178,7 @@ export function Pesquisador(props: PesquisadorProps) {
                   <img src={props.image} alt="" className="h-6" />
 
                 )}
-                <p className="text-[14px]  text-gray-500">{props.university}</p>
+                <p className="text-[14px] whitespace-normal text-center text-gray-500 truncate">{props.university}</p>
               </div>
             </div>
 
@@ -186,7 +186,7 @@ export function Pesquisador(props: PesquisadorProps) {
 
           {valoresSelecionadosExport != "" || valorDigitadoPesquisaDireta != "" ? (
             <div className="w-full overflow-x-hidden ">
-              <div id="main" className={`flex-wrap flex h-full  gap-3 items-center overflow-x-hidden whitespace-nowrap ${isOn && valoresSelecionadosExport != '' ? "ml-6 justify-start" : "mb-6 items-center justify-center"}`}>
+              <div id="main" className={`flex-wrap flex h-full  gap-3 items-center overflow-x-hidden whitespace-nowrap ${isOn && valoresSelecionadosExport != '' ? "ml-6 justify-start" : "mb-2 items-center justify-center"}`}>
                 {props.area.split(';').map((value, index) => (
                   <li
                     key={index}
@@ -202,7 +202,7 @@ export function Pesquisador(props: PesquisadorProps) {
               </div>
             </div>
           ) : (
-            <div id="main" className={`flex-wrap flex h-full  gap-3 items-center overflow-x-hidden whitespace-nowrap ${isOn && valoresSelecionadosExport != '' ? "ml-6 justify-start" : "mb-6 items-center justify-center"}`}>
+            <div id="main" className={`flex-wrap flex h-full  gap-3 items-center overflow-x-hidden whitespace-nowrap ${isOn && valoresSelecionadosExport != '' ? "ml-6 justify-start" : "items-center justify-center"}`}>
             
             {props.city != "None" ? (
               <div className="bg-blue-400 py-2 px-4 text-white rounded-md text-xs font-bold flex gap-2 items-center"><MapPin size={12} className="textwhite" /> {props.city}</div>
@@ -216,7 +216,7 @@ export function Pesquisador(props: PesquisadorProps) {
           )}
 
         </div>
-        <div className={` whitespace-nowrap  flex items-center justify-center rounded-md ${isOn && valoresSelecionadosExport != '' ? "float-right right-0 relative top-0 items-center flex justify-center" : " mt-5 w-full flex-col mx-4 pb-4"}`}>
+        <div className={` border-t py-8 border-gray-300 whitespace-nowrap  flex items-center justify-center rounded-md ${isOn && valoresSelecionadosExport != '' ? "float-right right-0 relative top-0 items-center flex justify-center" : " mt-5 w-full flex-col mx-4 "}`}>
 
         {valoresSelecionadosExport != "" || valorDigitadoPesquisaDireta != "" ? (
           
