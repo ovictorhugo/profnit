@@ -16,6 +16,8 @@ import logo_4 from '../assets/logo_4.png';
 import logo_5 from '../assets/logo_5.png';
 import BrasilMap from "./BrasilMap";
 
+import { searchGeral } from "./searchGeral";
+
 
 interface GraduateProgram {
   area: string;
@@ -35,6 +37,10 @@ interface GraduateProgram {
   longitude: string
 }
 
+interface Props {
+  id: string
+}
+
 interface GraphNode extends GraduateProgram {
   x: number | undefined;
   y: number | undefined;
@@ -50,7 +56,7 @@ interface Graph {
   links: GraphLink[];
 }
 
-export function MapProfnit() {
+export function MapProfnit(props: Props) {
   const { urlGeral, setUrlGeral } = useContext(UserContext);
   const { estadoSelecionado, setEstadoSelecionado } = useContext(UserContext);
   const svgRef = useRef<SVGSVGElement | null>(null);
@@ -61,6 +67,12 @@ export function MapProfnit() {
   const { idGraduateProgram, setIdGraduateProgram } = useContext(UserContext);
 
   const { t } = useTranslation();
+
+  const { idVersao, setIdVersao } = useContext(UserContext);
+  if(props.id == "") {
+    setIdVersao('1')
+  }
+  setIdVersao(props.id)
 
   
 
@@ -78,7 +90,7 @@ export function MapProfnit() {
 
 
 
-  const urlGraduateProgram = `${urlGeral}/graduate_program_profnit`;
+  const urlGraduateProgram = `${urlGeral}/graduate_program_profnit?id=${props.id}`;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -164,7 +176,7 @@ export function MapProfnit() {
 
 
   return (
-    <div className="h-screen max-h-screen overflow-y-hidden  overflow-x-hidden flex items-center">
+    <div className="  overflow-y-hidden  overflow-x-hidden flex items-center">
 
       <div className="backgroundGradient opacity-60 animate-pulse h-screen w-full backdrop-blur-lg absolute top-0 z-[-9999]">
       </div>
@@ -187,7 +199,7 @@ export function MapProfnit() {
          
           <div className="w-full">
           <div className="flex gap-3 w-full">
-          <div className="flex  items-center w-full  justify-center h-10 border-gray-300 border-[1px] rounded-lg bg-white hover:border-blue-400">
+          <div className="flex  items-center w-full  justify-center h-10 border-gray-300 border-[1px] rounded-xl bg-white hover:border-blue-400">
                         <MagnifyingGlass size={20} className={`text-gray-400 min-w-[52px] `} />
                         <input
                           type="text"
@@ -199,7 +211,7 @@ export function MapProfnit() {
                         />
                       </div>
 
-                      <Link onClick={() => handleFilterChange(filterValue)} to={"/result"} className="w-fit h-10 whitespace-nowrap flex items-center gap-4 bg-blue-400 text-white rounded-full px-6 py-2 justify-center hover:bg-blue-500 text-base font-medium transition">
+                      <Link onClick={() => handleFilterChange(filterValue)} to={"/result"} className="w-fit h-10 whitespace-nowrap flex items-center gap-4 bg-blue-400 text-white rounded-xl px-6 py-2 justify-center hover:bg-blue-500 text-base font-medium transition">
                         <ArrowRight size={16} className="text-white" /> {t('buttons.avancar')}
                     </Link>
           </div>
@@ -258,14 +270,18 @@ export function MapProfnit() {
           
       </div>
 
-      <div className=" flex  rounded-md z-[-99] bg-opacity-80 flex-wrap gap-6 mt-8 fixed bottom-10 px-6 md:px-16">
-                                      <img src={logo_1} className=" relative w-auto h-12"/>
-                                      <img src={logo_2} className=" relative w-auto h-12"/>
-                                      <img src={logo_3} className=" relative w-auto h-12"/>
-                                      <img src={logo_5} className=" relative w-auto h-12"/>
-                                      <img src={logo_4} className=" relative w-auto h-12"/>
-                                      
-                                  </div>
+      {idVersao === "2" ? (
+        <div className=" flex  rounded-md z-[-99] bg-opacity-80 flex-wrap gap-6 mt-8 fixed bottom-10 px-6 md:px-16">
+        <img src={logo_1} className=" relative w-auto h-12"/>
+        <img src={logo_2} className=" relative w-auto h-12"/>
+        <img src={logo_3} className=" relative w-auto h-12"/>
+        <img src={logo_5} className=" relative w-auto h-12"/>
+        <img src={logo_4} className=" relative w-auto h-12"/>
+        
+    </div>
+      ):('')}
+
+      
 
       <div className="fixed  right-0 pr-16 items-center justify-center flex">
       <div className="flex flex-col gap-3 max-h-[470px] overflow-y-auto">
@@ -382,6 +398,8 @@ export function MapProfnit() {
                     }
             })}
       </div>
+
+      <searchGeral/>
     </div>
   );
 }

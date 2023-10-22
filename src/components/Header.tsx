@@ -13,17 +13,21 @@ import { Publicacoes } from "./Publicacoes";
 
 import LanguageSwitcher from './LanguageSwitcher';
 
+import cimatec from '../assets/cimatec.png';
+import ifba from '../assets/ifba.png';
+
 type Total = {
   organizations: string,
   publications: string,
   researcher: string
 }
 
-import cimatec from '../assets/logo_profnit.png';
+import profnit from '../assets/logo_profnit.png';
 import Cookies from "js-cookie";
 import { useContext } from "react";
 import { UserContext } from "../contexts/context";
 import React, { useEffect } from 'react';
+import { LogoIapos } from "./LogoIapos";
 
 declare global {
   interface Window {
@@ -59,14 +63,29 @@ export function Header() {
 
   
   const { pesquisadoresSelecionadosGroupBarema, setPesquisadoresSelecionadosGroupBarema } = useContext(UserContext);
+  const { idVersao, setIdVersao } = useContext(UserContext);
 
   return (
     <header className={` z-[9999999] px-6 md:px-16 w-full mb-4 h-20 justify-between items-center flex absolute top-0`}>
       <div className=" w-full flex items-center h-12 ">
         <div className="flex gap-6 items-center h-full justify-center ">
-          <Link to={"/"} className="h-[30px]  "><Logo /></Link>
+        {idVersao === '1' ? (
+             <Link to={"/"} className="h-[30px]  "><LogoIapos /></Link>
+          ) : (idVersao === '2') ? (
+            <Link to={"/"} className="h-[30px]  "><Logo /></Link>
+          ) : (
+           ''
+          )}
+         
           <div className="w-[1px] h-8 bg-gray-400"></div>
-          <Link to={"https://profnit.org.br/"} target="_blank" className="h-[32px] "><img src={cimatec} alt="" className="h-[30px]" /></Link>
+          {idVersao === '1' ? (
+            <Link to={"https://www.senaicimatec.com.br/"} target="_blank" className="h-[32px] "><img src={cimatec} alt="" className="h-[30px]" /></Link>
+          ) : (idVersao === "2") ? (
+            <Link to={"https://profnit.org.br/"} target="_blank" className="h-[32px] "><img src={profnit} alt="" className="h-[30px]" /></Link>
+          ) : (
+            <Link to={"https://profnit.org.br/"} target="_blank" className="h-[32px] "><img src={ifba} alt="" className="h-[30px]" /></Link>
+          )}
+
         </div>
 
         <div className="md:flex h-full hidden  rounded-md   ml-4">

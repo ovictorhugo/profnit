@@ -67,7 +67,12 @@ interface UserContextType {
 
   estadoSelecionado: string, 
   setEstadoSelecionado: React.Dispatch<React.SetStateAction<string>>;
+
+  idVersao:string,
+  setIdVersao: React.Dispatch<React.SetStateAction<string>>;
   }
+
+  
 
 export const UserContext = createContext<UserContextType>({
 valoresSelecionadosExport: "",
@@ -119,4 +124,7 @@ intituicoesSelecionadasCheckbox: "",
 
   estadoSelecionado: "", 
   setEstadoSelecionado: () => {},
+
+  idVersao: "", 
+  setIdVersao: () => {},
 });

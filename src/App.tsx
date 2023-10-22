@@ -66,12 +66,14 @@ export const App = () => {
 
   const [valoresSelecionadosPopUp, setValoresSelecionadosPopUp] = useState('');
   const [isPopUpVisible, setIsPopUpVisible] = useState(false);
+  const [idVersao, setIdVersao] = useState('1');
 
   const [idGraduateProgram, setIdGraduateProgram] = useState('0');
 
   useEffect(() => {
   setValoresSelecionadosPopUp(valoresSelecionadosExport)
 }, [valoresSelecionadosExport]);
+
 
 
 
@@ -103,6 +105,9 @@ export const App = () => {
           distinct, setDistinct,
 
           estadoSelecionado, setEstadoSelecionado,
+          
+          //id versão define a versão do projeto (simcc, profnit e cimatec)
+          idVersao, setIdVersao,
 
 
           idGraduateProgram, setIdGraduateProgram
@@ -111,6 +116,9 @@ export const App = () => {
             <Route path='/' >
             <Route path=':userId?' element={<Profnit/>}/>
             </Route>
+
+
+
             <Route path='/search' element={<StepTwo/>}/>
             <Route path='/bem-vindo' element={<HomePageSimcc/>}/>
             <Route path='/discover' element={<Discover/>}/>

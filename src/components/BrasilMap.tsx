@@ -41,8 +41,10 @@ function BrasilMap() {
 
   const { estadoSelecionado, setEstadoSelecionado } = useContext(UserContext);
   const [selectedGraduateProgramId, setSelectedGraduateProgramId] = useState<string | null>(null);
-  
-  const urlGraduateProgram = `${urlGeral}/graduate_program_profnit`;
+
+
+   const { idVersao, setIdVersao } = useContext(UserContext);
+  const urlGraduateProgram = `${urlGeral}/graduate_program_profnit?id=${idVersao}`;
 
   useEffect(() => {
     const fetchData = async () => {

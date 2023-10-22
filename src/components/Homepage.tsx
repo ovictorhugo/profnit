@@ -99,7 +99,8 @@ export function Homepage() {
   const { urlGeral, setUrlGeral } = useContext(UserContext);
 
   const { idGraduateProgram, setIdGraduateProgram } = useContext(UserContext)
-  const urlGraduateProgram = `${urlGeral}/graduate_program_profnit`;
+  const { idVersao, setIdVersao } = useContext(UserContext);
+  const urlGraduateProgram = `${urlGeral}/graduate_program_profnit?id=${idVersao}`;
   const [graduateProgram, setGraduatePogram] = useState<GraduateProgram[]>([]);
 
   useEffect(() => {
