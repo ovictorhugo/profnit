@@ -22,7 +22,7 @@ export function Footer() {
 
 
           {isCloseHidden == true ? (
-            <div className='fixed bottom-10 left-[450px] bg-white min-h-[30px] py-4 rounded-xl min-w-[250px] transition-all'>
+            <div className='fixed border border-gray-300 bottom-10 left-[450px] bg-white min-h-[30px] py-4 rounded-xl min-w-[250px] transition-all'>
               <h5 className='mb-2 font-bold text-gray-400 px-4'>Créditos</h5>
               <p className='text-gray-400 text-[12px] font-medium mb-1 px-4 py-2 w-full hover:bg-blue-400 transition-all hover:text-white cursor-pointer'>Victor Hugo de Jesus Oliveira</p>
               <p className='text-gray-400 text-[12px] font-medium mb-1 px-4 py-2 w-full hover:bg-blue-400 transition-all hover:text-white cursor-pointer'>Matheus Souza dos Santos</p>

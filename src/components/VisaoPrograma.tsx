@@ -264,9 +264,7 @@ console.log(urlVisaoPrograma)
             </div>
 
             <div className="flex gap-4">
-            <div className="cursor-pointer rounded-full hover:bg-gray-100 h-[38px] w-[38px] transition-all flex items-center justify-center">
-              <DownloadSimple size={24} className={" transition-all text-gray-400"} />
-            </div>
+           
 
             <div className="cursor-pointer rounded-full hover:bg-gray-100 h-[38px] w-[38px] transition-all flex items-center justify-center">
               <DownloadSimple size={24} className={" transition-all text-gray-400"} />

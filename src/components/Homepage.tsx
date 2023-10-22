@@ -535,7 +535,7 @@ export function Homepage() {
                   <Tab onClick={handleClickTabs} selected={selectedTab === 0} selectedClassName={botaoTermosClicado ? "activeTermos" : (botaoAreasClicado ? "activeAreas" : botaoResumoClicado ? "activeResumo" : (botaoPesquisadoresClicado ? "activePesquisadores" : ""))} className="w-full cursor-pointer h-12 p-4 text-gray-400 border-[1px] border-solid bg-white border-gray-300 rounded-lg justify-center items-center flex outline-none   gap-3  transition-all" >
                     <User size={16} className="" />
                     <p className=" md:flex hidden"> Pesquisadores</p>
-                    <div className={` py-1 px-4 rounded-full text-xs font-bold bg-white ${botaoTermosClicado ? 'text-[#005399]' : ''} ${botaoResumoClicado ? 'text-[#EC1C22]' : ''} ${botaoAreasClicado ? 'text-[#8FC53E]' : ''} ${botaoPesquisadoresClicado ? 'text-[#20BDBE]' : ''}`}>{totalPesquisadores}</div>
+                    <div className={` py-1 px-4 rounded-full text-xs font-bold bg-white ${botaoTermosClicado ? 'text-blue-400' : ''} ${botaoResumoClicado ? 'text-yellow-400' : ''} ${botaoAreasClicado ? 'text-green-400' : ''} ${botaoPesquisadoresClicado ? 'text-red-400' : ''}`}>{totalPesquisadores}</div>
                   </Tab>
 
 
@@ -543,7 +543,7 @@ export function Homepage() {
                     <File size={16} className="" />
 
                     <p className=" md:flex hidden">Publicações</p>
-                    <div className={` py-1 px-4  rounded-full text-xs font-bold bg-white ${botaoTermosClicado ? 'text-[#005399]' : ''} ${botaoResumoClicado ? 'text-[#EC1C22]' : ''} ${botaoAreasClicado ? 'text-[#8FC53E]' : ''} ${botaoPesquisadoresClicado ? 'text-[#20BDBE]' : ''}`}>{totalPublicacoes}</div>
+                    <div className={` py-1 px-4  rounded-full text-xs font-bold bg-white ${botaoTermosClicado ? 'text-blue-400' : ''} ${botaoResumoClicado ? 'text-yellow-400' : ''} ${botaoAreasClicado ? 'text-green-400' : ''} ${botaoPesquisadoresClicado ? 'text-red-400' : ''}`}>{totalPublicacoes}</div>
                   </Tab>
 
 

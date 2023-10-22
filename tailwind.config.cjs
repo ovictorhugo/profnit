@@ -39,7 +39,7 @@ module.exports = {
         100: '#D9EBBD',
         200: '#DFECF4',
         300: '#AAB3BA',
-        400: '#8FC53E',
+        400: '#238536',
         500: '#323238',
       },
       red: {
@@ -48,6 +48,9 @@ module.exports = {
         300: '#AAB3BA',
         400: '#DE2834',
         500: '#A5202D',
+      },
+      yellow: {
+        400: '#FFCF00',
       },
       white: '#FFFFFF',
     },

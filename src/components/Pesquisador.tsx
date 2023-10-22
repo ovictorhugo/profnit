@@ -44,7 +44,7 @@ export function Pesquisador(props: PesquisadorProps) {
 
   const { valoresSelecionadosExport, setValoresSelecionadosExport } = useContext(UserContext);
   const { valorDigitadoPesquisaDireta, setValorDigitadoPesquisaDireta } = useContext(UserContext);
-  const { pesquisadoresSelecionadosGroup, setPesquisadoresSelecionadosGroups } = useContext(UserContext);
+  const { pesquisadoresSelecionadosGroupBarema, setPesquisadoresSelecionadosGroupBarema } = useContext(UserContext);
 
 
   const { valoresSelecionadosPopUp, setValoresSelecionadosPopUp } = useContext(UserContext)
@@ -152,7 +152,7 @@ export function Pesquisador(props: PesquisadorProps) {
 
     <div className="w-auto relative " >
 
-      <Link to={linkTo} target="_blank" className={`absolute z-[9]  top-6 hidden group-hover:flex cursor-pointer items-center gap-4 bg-blue-400 hover:bg-blue-500 text-white rounded-md h-[38px] w-[38px] justify-center  font-medium transition right-20  ${valoresSelecionadosExport != '' ? "right-20" : "right-6"}`}>
+      <Link to={linkTo} target="_blank" className={`absolute z-[9]  top-6 hidden group-hover:flex cursor-pointer items-center gap-4 bg-blue-400 hover:bg-blue-500 text-white rounded-xl h-[38px] w-[38px] justify-center  font-medium transition right-20  ${valoresSelecionadosExport != '' ? "right-20" : "right-6"}`}>
         <ArrowSquareOut size={16} className="text-white" />
       </Link>
 
@@ -171,14 +171,14 @@ export function Pesquisador(props: PesquisadorProps) {
 
             <div className={`flex  flex-col mx-6  relative ${isOn && valoresSelecionadosExport != '' ? "top-0 ml-6" : "top-[-30px] items-center"}`}>
               <h4 className={`text-lg font-medium  mb-1 ${isOn && valoresSelecionadosExport != '' ? "text-left" : " px-8 text-center"}`}>{props.name}</h4>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 overflow-hidden truncate">
                 {props.image == "None" ? (
                   <Buildings size={16} className="text-gray-500" />
                 ) : (
                   <img src={props.image} alt="" className="h-6" />
 
                 )}
-                <p className="text-[14px] whitespace-normal text-center text-gray-500 truncate">{props.university}</p>
+                <p className="text-[14px]  w-full whitespace-normal h-6 text-center text-gray-500 truncate">{props.university}</p>
               </div>
             </div>
 
@@ -186,7 +186,7 @@ export function Pesquisador(props: PesquisadorProps) {
 
           {valoresSelecionadosExport != "" || valorDigitadoPesquisaDireta != "" ? (
             <div className="w-full overflow-x-hidden ">
-              <div id="main" className={`flex-wrap flex h-full  gap-3 items-center overflow-x-hidden whitespace-nowrap ${isOn && valoresSelecionadosExport != '' ? "ml-6 justify-start" : "mb-2 items-center justify-center"}`}>
+              <div id="main" className={`flex-wrap mx-4 flex h-full  gap-3 items-center overflow-x-hidden whitespace-nowrap ${isOn && valoresSelecionadosExport != '' ? "ml-6 justify-start" : "mb-2 items-center justify-center"}`}>
                 {props.area.split(';').map((value, index) => (
                   <li
                     key={index}
@@ -220,7 +220,7 @@ export function Pesquisador(props: PesquisadorProps) {
 
         {valoresSelecionadosExport != "" || valorDigitadoPesquisaDireta != "" ? (
           
-            <div className="flex gap-3 relative">
+            <div className="flex gap-3 relative mb-6">
               {(botaoTermosClicado && props.among != 0) || (botaoAreasClicado && props.among != null) ? (
                 <div className="text-blue-400 flex text-sm font-bold gap-3">
                   {props.among} ocorrências
@@ -239,7 +239,7 @@ export function Pesquisador(props: PesquisadorProps) {
         )}
 
         <div className="flex flex-1 gap-4 items-center justify-between relative px-4">
-              <div className={`flex gap-3 ${isOn && valoresSelecionadosExport != '' ? "" : "mt-6"}`}>
+              <div className={`flex gap-3 ${isOn && valoresSelecionadosExport != '' ? "" : ""}`}>
                 <div className=" border-[1px] border-gray-300 py-2 flex px-4 text-gray-400 rounded-md text-xs font-medium">{props.articles} artigos</div>
                 <div className="border-[1px] border-gray-300 py-2 flex px-4 text-gray-400 rounded-md text-xs font-medium">{props.book} livros</div>
                 <div className=" border-[1px] border-gray-300 py-2 flex px-4 text-gray-400 rounded-md text-xs font-medium">{props.book_chapters} capítulos de livros</div>
@@ -313,7 +313,7 @@ export function Pesquisador(props: PesquisadorProps) {
                 <ArrowSquareOut size={16} className="text-white" />
               </Link>
 
-              <p className="text-[12px] text-white"> Nova página</p>
+              <p className="text-[12px] text-white"> Mais info</p>
             </div>
 
             

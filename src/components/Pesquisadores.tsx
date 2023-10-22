@@ -393,7 +393,7 @@ console.log(pesquisadoresSelecionadosGroupBarema)
 
 <label
           key={index}
-          className={`z-[99] absolute m-6 ml-auto hidden group-hover:flex cursor-pointer float-right items-center gap-4 ${pesquisadoresSelecionadosGroupBarema.includes(user.name) ? 'bg-red-400 hover:bg-red-500' : 'bg-blue-400 hover:bg-blue-500'} text-white rounded-md h-[38px] w-[38px] justify-center  font-medium transition`}
+          className={`z-[99] absolute m-6 ml-auto hidden group-hover:flex cursor-pointer float-right items-center gap-4 ${pesquisadoresSelecionadosGroupBarema.includes(user.name) ? 'bg-red-400 hover:bg-red-500' : 'bg-blue-400 hover:bg-blue-500'} text-white rounded-xl h-[38px] w-[38px] justify-center  font-medium transition`}
         >
           {pesquisadoresSelecionadosGroupBarema.includes(user.name) ? (
             <X size={16} className="text-white" />
@@ -468,7 +468,7 @@ console.log(pesquisadoresSelecionadosGroupBarema)
 
         <div className="mb-9 flex gap-4 w-full justify-center">
           <button
-            className="flex items-center gap-4 bg-blue-400 text-white rounded-full px-6 py-2 justify-center hover:bg-blue-500 mb-6 font-medium transition"
+            className="flex items-center gap-4 bg-blue-400 text-white rounded-xl px-6 py-2 justify-center hover:bg-blue-500 mb-6 font-medium transition"
             onClick={() => {
               setCurrentPage(currentPage - 1);
               if (document) {
@@ -476,7 +476,7 @@ console.log(pesquisadoresSelecionadosGroupBarema)
               }
             }}
             style={{
-              backgroundColor: currentPage === 1 ? '#ccc' : '#005399',
+              backgroundColor: currentPage === 1 ? '#ccc' : '#173DFF',
               opacity: currentPage === 1 ? '0.5' : '1',
             }}
             disabled={currentPage === 1}
@@ -485,7 +485,7 @@ console.log(pesquisadoresSelecionadosGroupBarema)
           </button>
 
           <button
-            className="flex items-center gap-4 bg-blue-400 text-white rounded-full px-6 py-2 justify-center hover:bg-blue-500 mb-6 font-medium transition"
+            className="flex items-center gap-4 bg-blue-400 text-white rounded-xl px-6 py-2 justify-center hover:bg-blue-500 mb-6 font-medium transition"
             onClick={() => {
               setCurrentPage(currentPage + 1);
               if (document) {
@@ -493,7 +493,7 @@ console.log(pesquisadoresSelecionadosGroupBarema)
               }
             }}
             style={{
-              backgroundColor: indexOfLastResult >= researcher.length ? '#ccc' : '#005399',
+              backgroundColor: indexOfLastResult >= researcher.length ? '#ccc' : '#173DFF',
               opacity: indexOfLastResult >= researcher.length ? '0.5' : '1',
             }}
             disabled={indexOfLastResult >= researcher.length}

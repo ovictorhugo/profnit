@@ -1210,7 +1210,7 @@ export function PopUp(props: PesquisadorProps) {
 
                       <div className="mb-9 flex gap-4 w-full justify-center">
                         <button
-                          className="flex items-center gap-4 bg-blue-400 text-white rounded-full px-6 py-2 justify-center hover:bg-blue-500 mb-6 font-medium transition"
+                          className="flex items-center gap-4 bg-blue-400 text-white rounded-xl px-6 py-2 justify-center hover:bg-blue-500 mb-6 font-medium transition"
                           onClick={() => {
                             setCurrentPage(currentPage - 1);
                             if (document) {
@@ -1218,7 +1218,7 @@ export function PopUp(props: PesquisadorProps) {
                             }
                           }}
                           style={{
-                            backgroundColor: currentPage === 1 ? '#ccc' : '#005399',
+                            backgroundColor: currentPage === 1 ? '#ccc' : '#173DFF',
                             opacity: currentPage === 1 ? '0.5' : '1',
                           }}
                           disabled={currentPage === 1}
@@ -1227,7 +1227,7 @@ export function PopUp(props: PesquisadorProps) {
                         </button>
 
                         <button
-                          className="flex items-center gap-4 bg-blue-400 text-white rounded-full px-6 py-2 justify-center hover:bg-blue-500 mb-6 font-medium transition"
+                          className="flex items-center gap-4 bg-blue-400 text-white rounded-xl px-6 py-2 justify-center hover:bg-blue-500 mb-6 font-medium  text-md transition"
                           onClick={() => {
                             setCurrentPage(currentPage + 1);
                             if (document) {
@@ -1235,7 +1235,7 @@ export function PopUp(props: PesquisadorProps) {
                             }
                           }}
                           style={{
-                            backgroundColor: indexOfLastResult >= publicacoes.length ? '#ccc' : '#005399',
+                            backgroundColor: indexOfLastResult >= publicacoes.length ? '#ccc' : '#173DFF',
                             opacity: indexOfLastResult >= publicacoes.length ? '0.5' : '1',
                           }}
                           disabled={indexOfLastResult >= publicacoes.length}

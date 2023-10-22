@@ -23,8 +23,39 @@ import cimatec from '../assets/logo_profnit.png';
 import Cookies from "js-cookie";
 import { useContext } from "react";
 import { UserContext } from "../contexts/context";
+import React, { useEffect } from 'react';
+
+declare global {
+  interface Window {
+    googleTranslateElementInit: () => void;
+  }
+}
+
+
 
 export function Header() {
+
+  useEffect(() => {
+    const existingScript = document.getElementById('google-translate-api');
+    if (!existingScript) {
+      const script = document.createElement('script');
+      script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+      script.id = 'google-translate-api';
+      document.body.appendChild(script);
+    }
+
+    // Define the translation initialization function globally.
+    window.googleTranslateElementInit = () => {
+      new (window as any).google.translate.TranslateElement(
+        {
+          pageLanguage: 'en',
+          autoDisplay: false,
+        },
+        'google_translate_element'
+      );
+    };
+  }, []);
+
 
   
   const { pesquisadoresSelecionadosGroupBarema, setPesquisadoresSelecionadosGroupBarema } = useContext(UserContext);
@@ -44,12 +75,13 @@ export function Header() {
           <Link to={"/terms"} className="flex items-center h-full  px-4 text-gray-400 text-sm font-bold transition  gap-2"><ListDashes size={16} className="text-gray-400" />Dicionário</Link>
           <Link to={"/magazine"} className="flex items-center h-full  px-4 text-gray-400 text-sm font-bold transition  gap-2"><BookOpen size={16} className="text-gray-400" />Revistas</Link>
           <Link to={"/barema"} className="flex items-center h-full  px-4 text-gray-400 text-sm font-bold transition  gap-2"><Textbox size={16} />Barema{ pesquisadoresSelecionadosGroupBarema != '' ? (<div className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>):('')}</Link>
-          <Link to={"/export-sucupira"} className="flex items-center h-full  px-4 text-gray-400 text-sm font-bold transition  gap-2"><Share size={16} className="text-gray-400" />Exportação Sucupira</Link>
+       
         </div>
       </div>
 
       <div className="flex gap-4">
-        <LanguageSwitcher/>
+        <div id="google_translate_element" ></div>
+        {/*<LanguageSwitcher/>*/}
         </div>
     </header>
   )

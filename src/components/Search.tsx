@@ -750,7 +750,7 @@ function myWrapperFunction() {
           <div className='flex flex-wrap md:flex-nowrap top-6 w-full'>
 
             <div className='flex w-full flex-col'>
-              <div className={`flex bg-white  items-center h-14 group w-full  text-base font-medium  justify-center transition border-[1px] border-gray-300 ${botaoTermosClicado ? 'hover:border-[#005399]' : ''} ${botaoResumoClicado ? 'hover:border-red-400' : ''} ${botaoAreasClicado ? 'hover:border-[#8FC53E]' : ''} ${botaoPesquisadoresClicado ? 'hover:border-[#20BDBE]' : ''} ${isOpen && pesquisaInput.length >= 3 ? 'rounded-tl-lg' : 'rounded-l-lg'}`}>
+              <div className={`flex bg-white  items-center h-14 group w-full  text-base font-medium  justify-center transition border-[1px] border-gray-300 ${botaoTermosClicado ? 'hover:border-blue-400' : ''} ${botaoResumoClicado ? 'hover:border-red-400' : ''} ${botaoAreasClicado ? 'hover:border-green-400' : ''} ${botaoPesquisadoresClicado ? 'hover:border-[#20BDBE]' : ''} ${isOpen && pesquisaInput.length >= 3 ? 'rounded-tl-2xl' : 'rounded-l-2xl'}`}>
                 <MagnifyingGlass size={20} className={`text-gray-400 min-w-[52px] ${botaoTermosClicado ? 'group-hover:text-[#005399]' : ''} ${botaoResumoClicado ? 'group-hover:text-red-400' : ''} ${botaoAreasClicado ? 'group-hover:text-[#8FC53E]' : ''} ${botaoPesquisadoresClicado ? 'group-hover:text-[#20BDBE]' : ''}`} />
                 <div className='flex gap-2 mx-2'>{valoresSelecionadosJSX}{valoresPesquisadoresSelecionadosJSX}{valoresAreasSelecionadosJSX}{valoresSelecionadosResumoJSX}</div>
                 <input
@@ -771,32 +771,32 @@ function myWrapperFunction() {
 
             <Tabs>
               <TabList className={`bg-white  p-2 flex gap-2  border-[1px] border-gray-300 border-l-0
-            ${isOpen && pesquisaInput.length >= 3 ? 'rounded-tr-lg' : 'rounded-r-lg'}`}>
+            ${isOpen && pesquisaInput.length >= 3 ? 'rounded-tr-2xl' : 'rounded-r-2xl'}`}>
 
-                <Tab selected={selectedTab === 0} className={`outline-none cursor-pointer text-sm rounded-full text-gray-400 flex items-center border-[1px] border-white gap-2 px-4 py-2 font-semibold transition ${botaoTermosClicado ? "activeTermos" : ('')}`} onClick={handleClickTermos} name="buttontermos">
+                <Tab selected={selectedTab === 0} className={`outline-none cursor-pointer text-sm rounded-xl text-gray-400 flex items-center border-[1px] border-white gap-2 px-4 py-2 font-semibold transition ${botaoTermosClicado ? "activeTermos" : ('')}`} onClick={handleClickTermos} name="buttontermos">
                   <CursorText size={16} className="" />
                   Termo
                 </Tab>
 
-                <Tab selected={selectedTab === 1} className={`outline-none cursor-pointer text-sm rounded-full text-gray-400 flex items-center border-[1px] border-white gap-2 px-4 py-2 font-semibold transition ${botaoResumoClicado ? "activeResumo" : ('')}`} onClick={handleClickResumo} name="buttonresumo">
+                <Tab selected={selectedTab === 1} className={`outline-none cursor-pointer text-sm rounded-xl text-gray-400 flex items-center border-[1px] border-white gap-2 px-4 py-2 font-semibold transition ${botaoResumoClicado ? "activeResumo" : ('')}`} onClick={handleClickResumo} name="buttonresumo">
                   <TextAlignLeft size={16} className="" />
                   Resumo
                 </Tab>
 
-                <Tab selected={selectedTab === 2} className={`outline-none cursor-pointer text-sm text-gray-400 rounded-full flex items-center gap-2 px-4 py-2 font-semibold  transition ${botaoAreasClicado ? "activeAreas" : ('')}`} onClick={handleClickAreas}>
+                <Tab selected={selectedTab === 2} className={`outline-none cursor-pointer text-sm text-gray-400 rounded-xl flex items-center gap-2 px-4 py-2 font-semibold  transition ${botaoAreasClicado ? "activeAreas" : ('')}`} onClick={handleClickAreas}>
                   <Lightbulb size={16} className="" />
                   Áreas
                 </Tab>
 
-                <Tab selected={selectedTab === 3} className={` outline-none cursor-pointer text-sm text-gray-400 rounded-full flex items-center gap-2  px-4 py-2 font-semibold  transition ${botaoPesquisadoresClicado ? "activePesquisadores" : ('')}`} onClick={handleClickPesquisadores} >
+                <Tab selected={selectedTab === 3} className={` outline-none cursor-pointer text-sm text-gray-400 rounded-xl flex items-center gap-2  px-4 py-2 font-semibold  transition ${botaoPesquisadoresClicado ? "activePesquisadores" : ('')}`} onClick={handleClickPesquisadores} >
                   <IdentificationCard size={16} className="" />
                   Nome
                 </Tab>
 
 
                 <div className='flex items-center justify-center'>
-                  <div className={`absolute z[-999] animate-ping gap-4 text-white rounded-lg h-[28px] w-[28px] justify-center hover:bg-blue-500  font-medium transition ${botaoTermosClicado ? 'bg-blue-400' : ''} ${botaoAreasClicado ? 'bg-[#8FC53E]' : ''} ${botaoResumoClicado ? 'bg-[#EC1C22]' : ''} ${botaoPesquisadoresClicado ? 'bg-[#20BDBE]' : ''}`}></div>
-                  <div onClick={handleClick} className={`cursor-pointer flex z-[999] relative  items-center gap-4 text-white rounded-lg h-[38px] w-[38px] justify-center  font-medium transition ${botaoTermosClicado ? 'bg-blue-400' : ''} ${botaoResumoClicado ? 'bg-[#EC1C22]' : ''} ${botaoAreasClicado ? 'bg-[#8FC53E]' : ''} ${botaoPesquisadoresClicado ? 'bg-[#20BDBE]' : ''}`}><Funnel size={16} className="text-white" /></div>
+                  <div className={`absolute z[-999] animate-ping gap-4 text-white rounded-xl h-[28px] w-[28px] justify-center hover:bg-blue-500  font-medium transition ${botaoTermosClicado ? 'bg-blue-400' : ''} ${botaoAreasClicado ? 'bg-green-400' : ''} ${botaoResumoClicado ? 'bg-yellow-400' : ''} ${botaoPesquisadoresClicado ? 'bg-red-400' : ''}`}></div>
+                  <div onClick={handleClick} className={`cursor-pointer flex z-[999] relative  items-center gap-4 text-white rounded-xl h-[38px] w-[38px] justify-center  font-medium transition ${botaoTermosClicado ? 'bg-blue-400' : ''} ${botaoResumoClicado ? 'bg-yellow-400' : ''} ${botaoAreasClicado ? 'bg-green-400' : ''} ${botaoPesquisadoresClicado ? 'bg-red-400' : ''}`}><Funnel size={16} className="text-white" /></div>
                 </div>
 
               </TabList>

@@ -45,15 +45,6 @@ type Research = {
     name: string
   }
 
-  type Category = {
-    codigo: string;
-    criterio: string;
-    ano: string;
-    pontos: string;
-    pontuacao_maxima: string;
-    categoria_pai: string;
-  };
-
 export function Barema() {
 
     const [researcher, setResearcher] = useState<Research[]>([]); // Define o estado vazio no início
@@ -260,44 +251,49 @@ export function Barema() {
   const anoAtual = new Date().getFullYear();
   const anoFiltro = anoAtual - ano;
 
-  const [data, setData] = useState<any[]>([]);
-  const [categories, setCategories] = useState<any[]>([]);
 
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
+ // Os estados para armazenar os dados do arquivo CSV e categorias
+ const [categorias, setCategorias] = useState([]);
+ const [categoriasMapeadas, setCategoriasMapeadas] = useState({});
 
-    if (file) {
-      Papa.parse(file, {
-        header: true,
-        delimiter: ';',
-        dynamicTyping: true,
-        skipEmptyLines: true,
-        
-        complete: (result) => {
-          setData(result.data);
+ useEffect(() => {
+   const handleFileUpload = (e) => {
+     const file = e.target.files[0];
 
-          // Group categories and subcategories
-          const groupedCategories = result.data.filter((item) => item['categoria pai'] === '0').map((mainCategory) => {
-            mainCategory.subcategories = result.data.filter(
-              (subCategory) => subCategory['categoria pai'] === mainCategory['codigo']
-            );
-            return mainCategory;
-          });
-          
-          setCategories(groupedCategories);
-          console.log(categories)
-        },
-        error: (error) => {
-          console.error('Error parsing CSV:', error);
-        },
-      });
-    }
-  };
+     Papa.parse(file, {
+       header: true,
+       delimiter: ";", // Defina o delimitador como ponto e vírgula
+       complete: (result) => {
+         if (result.data && result.data.length > 0) {
+           const categoriasPai = result.data.filter((item) => item.categoria_pai === '0');
+           const categoriasFilhas = result.data.filter((item) => item.categoria_pai !== '0');
 
+           // Organize as categorias filhas pelo código da categoria pai
+           const categoriasMapeadas = {};
+           categoriasPai.forEach((categoriaPai) => {
+             const subCategorias = categoriasFilhas.filter((categoriaFilha) =>
+               categoriaFilha.categoria_pai === categoriaPai.codigo
+             );
+             categoriasMapeadas[categoriaPai.codigo] = subCategorias;
+           });
 
+           setCategorias(categoriasPai);
+           setCategoriasMapeadas(categoriasMapeadas);
+         }
+       },
+     });
+   };
 
+   const fileInput = document.getElementById('fileInput');
+   fileInput.addEventListener('change', handleFileUpload);
 
+   return () => {
+     fileInput.removeEventListener('change', handleFileUpload);
+   };
+ }, []);
+  
 
+  ///////////////////////////////
 
 
   //visibilidade
@@ -472,6 +468,7 @@ const options: Highcharts.Options = {
   };
 
 
+  console.log(csvData)
 
 
     return  (
@@ -498,7 +495,7 @@ const options: Highcharts.Options = {
                 </strong>{" "}
                 de avaliação dos pesquisadores
                 </h1>
-                <div className="gap-4 flex"><label for="fileInput"  className="rounded-lg cursor-pointer px-4 h-12 border-white border flex items-center justify-center gap-3 hover:bg-white transition-all text-white hover:text-blue-400"><input onChange={handleFileUpload} id="fileInput" type="file" accept=".csv" hidden/><DownloadSimple size={16} className="" />Importar arquivo .csv com barema</label>
+                <div className="gap-4 flex"><label for="fileInput"  className="rounded-lg cursor-pointer px-4 h-12 border-white border flex items-center justify-center gap-3 hover:bg-white transition-all text-white hover:text-blue-400"><input  id="fileInput" type="file" accept=".csv" hidden/><DownloadSimple size={16} className="" />Importar arquivo .csv com barema</label>
                 <div onClick={() => apagarGroup()}  className="rounded-lg cursor-pointer w-12 h-12  border-white border flex items-center justify-center hover:bg-white transition-all text-white hover:text-blue-400"><FileCsv size={16} className="" /></div></div>
                 </div>
 
@@ -690,113 +687,96 @@ const options: Highcharts.Options = {
       </div>
 
       {/* Renderização dos blocos por categoria */}
-     {/*fazer um map das categorias*/}
-     {categories.length > 0 &&
-  categories.map((mainCategory, index) => (
-    <div className="mb-12" key={mainCategory.id}>
-      <div className="z-[-999999] flex flex-col gap-4 w-full p-12 bg-white border border-gray-300 rounded-t-2xl">
-        {/* Título da categoria */}
-        <div className="flex justify-between">
-          <div>
-            <h1 className="z-[999999] text-2xl mb-2 font-normal max-w-[750px]">
-              <strong className="bg-blue-400 text-white font-normal">
-                {mainCategory.name}
-              </strong>
-            </h1>
-            <p className="text-gray-400 mb-8">Descrição da categoria</p>
+      {categorias.map((categoriaPai) => (
+        // Verifica se é uma sessão principal (critério pai == 0)
+     
+
+        <div className="mb-12">
+        <div  className="z-[-999999] flex flex-col gap-4 w-full  p-12  bg-white border border-gray-300 rounded-t-2xl" key={categoriaPai.codigo} >
+          {/* Título da categoria */}
+          <div className="flex justify-between">
+            <div>
+              <h1 className="z-[999999] text-2xl mb-2 font-normal max-w-[750px] ">
+                <strong className="bg-blue-400 text-white font-normal">{' '}</strong> 
+              </h1>
+              <p className="text-gray-400 mb-8">
+              dd
+            </p>
+            </div>
+            <div  onClick={() => setIsCloseHidden(!isCloseHidden)} className=" button-to-toggle z-[999] text-gray-400 cursor-pointer rounded-full hover:bg-gray-100 h-[38px] w-[38px] transition-all flex items-center justify-center">
+              {isCloseHidden == false ? (<CaretUp size={16} className="" />):(<CaretDown size={16} className="" />)}
+            </div>
           </div>
-          <div
-            onClick={() => setIsCloseHidden(!isCloseHidden)}
-            className="button-to-toggle z-[999] text-gray-400 cursor-pointer rounded-full hover:bg-gray-100 h-[38px] w-[38px] transition-all flex items-center justify-center"
-          >
-            {isCloseHidden === false ? (
-              <CaretUp size={16} className="" />
-            ) : (
-              <CaretDown size={16} className="" />
-            )}
+
+          {/* Tabela para exibir os dados da categoria */}
+          <div className={isCloseHidden ? 'hidden' : ''}>
+            <div className="w-full grid grid-cols-4 mb-4">
+              <p className="text-gray-400">Critérios</p>
+              <p className="text-gray-400">Pontos</p>
+              <p className="text-gray-400">Pontuação máxima</p>
+              <p className="text-gray-400">Total</p>
+            </div>
+
+            <div className="w-full flex gap-4 flex-col">
+            {dados[categoria].map((item, index) => (
+                <div key={index} className="grid grid-cols-4 gap-4 border-t pt-4 border-gray-300">
+                  <div className="border-[1px] bg-white border-gray-300 flex h-10 items-center px-4 text-gray-400 rounded-md text-xs font-bold w-fit truncate overflow-ellipsis max-w-[100%]">{item.criterio}</div>
+                  <div>
+                    <input
+                      type="number"
+                      min="0"
+                      max="100"
+                      className="hover:border-blue-400 transition-all border-[1px] bg-white border-gray-300 flex h-10 items-center px-4 text-gray-400 rounded-md text-xs font-bold w-fit outline-none"
+                      value={item.pontos}
+                      onChange={(e) => handleInputChange(index, 'pontos', e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <input
+                      type="number"
+                      min="0"
+                      max="100"
+                      className="hover:border-blue-400 transition-all border-[1px] bg-white border-gray-300 flex h-10 items-center px-4 text-gray-400 rounded-md text-xs font-bold w-fit outline-none"
+                      value={item.quantidade}
+                      onChange={(e) => handleInputChange(index, 'quantidade', e.target.value)}
+                    />
+                  </div>
+
+                  <div className="flex gap-4 w-full overflow-x-auto element pb-2">
+                    aquio
+                  </div>
+                </div>
+              ))}
+
+           
+            </div>
           </div>
         </div>
 
-        {/* Tabela para exibir os dados da categoria */}
-        <div className={isCloseHidden ? 'hidden' : ''}>
-          <div className="w-full grid grid-cols-4 mb-4">
-            <p className="text-gray-400">Critérios</p>
-            <p className="text-gray-400">Pontos</p>
-            <p className="text-gray-400">Quantidade máxima</p>
-            <p className="text-gray-400">Total</p>
-          </div>
+        <div className="flex border py-6 gap-8 border-gray-300 px-12  rounded-b-2xl bg-gray-50 items-center justify-between ">
+            
+            {/* subtotal  */}
+            <p className="text-gray-400 whitespace-nowrap  flex items-center gap-2">
+              Subtotal (máximo a ser considerado
+            <input
+                type="number"
+                min="0"
+                className="border-[1px] w-12 bg-white border-gray-300 flex h-10 items-center px-4 text-gray-400 rounded-md text-xs font-bold  outline-none"
+               
+                
+              />
+              pontos)
+              </p>
 
-          <div className="w-full flex gap-4 flex-col">
-            {mainCategory.subcategories.map((subCategory, subIndex) => (
-              <div key={subCategory.id} className="grid grid-cols-4 gap-4 border-t pt-4 border-gray-300">
-                <div className="border-[1px] bg-white border-gray-300 flex h-10 items-center px-4 text-gray-400 rounded-md text-xs font-bold w-fit truncate overflow-ellipsis max-w-[100%]">
-                  {subCategory.criteria}
-                </div>
-                <div>
-                  <input
-                    type="number"
-                    min="0"
-                    max="100"
-                    className="hover:border-blue-400 transition-all border-[1px] bg-white border-gray-300 flex h-10 items-center px-4 text-gray-400 rounded-md text-xs font-bold w-fit outline-none"
-                    id="pontos"
-                  />
-                </div>
-                <div>
-                  <input
-                    type="number"
-                    min="0"
-                    max="100"
-                    className="hover:border-blue-400 transition-all border-[1px] bg-white border-gray-300 flex h-10 items-center px-4 text-gray-400 rounded-md text-xs font-bold w-fit outline-none"
-                    id="pontuacao_maxima"
-                  />
-                </div>
-
-                <div className="flex gap-4 w-full overflow-x-auto element pb-2">
-                  {researcher.map((props) => {
-                    // Titulação
-                    if (props.graduation === subCategory.criteria && mainCategory.name === 'Titulação ou estágio de estudo e pesquisa') {
-                      const sumTitulacao = (subCategory.pontos * subCategory.quantidade);
-                      titulacao[props.id] = (titulacao[props.id] || 0) + sumTitulacao;
-
-                      return (
-                        <div
-                          key={props.id}
-                          className="group transition-all pr-4 border-[1px] bg-white border-gray-300 flex h-10 items-center text-gray-400 rounded-md text-xs font-bold w-fit gap-3"
-                        >
-                          <div
-                            className="rounded-l-md w-[40px] h-[40px] bg-cover bg-center bg-no-repeat"
-                            style={{ backgroundImage: `url(http://servicosweb.cnpq.br/wspessoa/servletrecuperafoto?tipo=1&id=${props.lattes_10_id})` }}
-                          ></div>
-                          {subCategory.pontos * subCategory.quantidade}
-                        </div>
-                      );
-                    }
-                  })}
-                </div>
+              <div className="flex gap-4 w-full overflow-x-auto element pb-2">
+              aqui2
               </div>
-            ))}
+              
+
           </div>
         </div>
-      </div>
-
-      <div className="flex border py-6 gap-8 border-gray-300 px-12 rounded-b-2xl bg-gray-50 items-center justify-between">
-        {/* subtotal */}
-        <p className="text-gray-400 whitespace-nowrap flex items-center gap-2">
-          Subtotal (máximo a ser considerado
-          <input
-            type="number"
-            min="0"
-            className="border-[1px] w-12 bg-white border-gray-300 flex h-10 items-center px-4 text-gray-400 rounded-md text-xs font-bold outline-none"
-          />
-          pontos)
-        </p>
-
-        <div className="flex gap-4 w-full overflow-x-auto element pb-2"></div>
-      </div>
-    </div>
-  ))
-}
-
+      
+      ))}
     </div> 
 
     <div className="z-[-999999] mb-12 justify-center flex flex-col items-center gap-4 w-full  p-12  bg-white border border-gray-300 rounded-2xl">
@@ -822,7 +802,7 @@ const options: Highcharts.Options = {
 
             {researcher.map((props, index) => {
   // Titulação ou estágio de estudo e pesquisa
-  const somaTotal = titulacao[props.id] + researcherSums[props.id];
+ 
 
   return (
     <div
@@ -842,23 +822,12 @@ const options: Highcharts.Options = {
       </div>
 
       <div className="grid grid-cols-4 gap-4">
-        <div className="border-[1px] bg-white border-gray-300 flex h-10 items-center px-4 text-gray-400 rounded-md text-xs font-bold w-fit">
-          {titulacao[props.id]} pontos
-        </div>
-        <div className="border-[1px] bg-white border-gray-300 flex h-10 items-center px-4 text-gray-400 rounded-md text-xs font-bold w-fit">
-          {researcherSums[props.id]} pontos
-        </div>
-        <div className="border-[1px] bg-white border-gray-300 flex h-10 items-center px-4 text-gray-400 rounded-md text-xs font-bold w-fit">
-          {researcherSums[props.id]} pontos
-        </div>
-        <div className="border-[1px] bg-white border-gray-300 flex h-10 items-center px-4 text-gray-400 rounded-md text-xs font-bold w-fit">
-          {researcherSums[props.id]} pontos
-        </div>
+        aqui 3
       </div>
 
       <div className="flex justify-end">
         <div className="border-[1px] bg-blue-400 border-gray-300 flex h-10 items-center px-4 text-white rounded-md text-xs font-bold w-fit">
-          {somaTotal} pontos
+     pontos
         </div>
       </div>
     </div>
